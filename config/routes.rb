@@ -4,6 +4,8 @@ ServiceDesign::Application.routes.draw do
   resources :messages
 
   resources :users
+  
+  root :to => 'users'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
