@@ -1,4 +1,6 @@
 ServiceDesign::Application.routes.draw do
+  resources :sessions
+
   resources :messages
 
   resources :users

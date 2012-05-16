@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Owner:</b>
+  <%= @session.owner_id %>
+</p>
+
+<p>
+  <b>Timeout:</b>
+  <%= @session.timeout %>
+</p>
+
+<p>
+  <b>Forwarding time:</b>
+  <%= @session.forwarding_time %>
+</p>
+
+
+<%= link_to 'Edit', edit_session_path(@session) %> |
+<%= link_to 'Back', sessions_path %>

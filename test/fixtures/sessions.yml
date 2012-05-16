@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  owner_id: 1
+  timeout: 1
+  forwarding_time: 1
+
+two:
+  owner_id: 1
+  timeout: 1
+  forwarding_time: 1
