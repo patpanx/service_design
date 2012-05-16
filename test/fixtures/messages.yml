@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  session_id: 1
+  owner_id: 1
+  timestamp: 2012-05-16 15:13:29
+  receiver_id: 1
+  text: MyText
+  media: MyString
+  location_id: 1
+
+two:
+  session_id: 1
+  owner_id: 1
+  timestamp: 2012-05-16 15:13:29
+  receiver_id: 1
+  text: MyText
+  media: MyString
+  location_id: 1
