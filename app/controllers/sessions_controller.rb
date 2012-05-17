@@ -1,4 +1,4 @@
-class SessionsController < ApplicationController
+class SessionsController < ApplicationController 
   # GET /sessions
   # GET /sessions.json
   def index
