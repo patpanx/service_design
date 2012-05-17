@@ -5,6 +5,7 @@
     <th>Name</th>
     <th>Email</th>
     <th>Password</th>
+    <th>Admin</th>
     <th></th>
     <th></th>
     <th></th>
@@ -15,9 +16,18 @@
     <td><%= user.name %></td>
     <td><%= user.email %></td>
     <td><%= user.password %></td>
+     <td><%= user.admin %></td>
+     
+     
+     <% if @actual_user.is_admin? %>
     <td><%= link_to 'Show', user %></td>
     <td><%= link_to 'Edit', edit_user_path(user) %></td>
     <td><%= link_to 'Destroy', user, confirm: 'Are you sure?', method: :delete %></td>
+    <% else %>
+    <th></th>
+    <th></th>
+    <th></th>
+    <%end %>
   </tr>
 <% end %>
 </table>

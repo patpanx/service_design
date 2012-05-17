@@ -3,10 +3,14 @@ class UsersController < ApplicationController
   # GET /users.json
   def index
     @users = User.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @users }
+    #only show user list when user is admin
+    if @actual_user.is_admin?
+      respond_to do |format|
+        format.html # show.html.erb
+        format.json { render json: @user }
+      end
+    else
+      redirect_to user_path(@actual_user)
     end
   end
 
@@ -14,10 +18,14 @@ class UsersController < ApplicationController
   # GET /users/1.json
   def show
     @user = User.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @user }
+    #checks if user is admin or if actual_user is the same as the profile that will be shown
+    if @actual_user.is_admin? || @actual_user == @user
+      respond_to do |format|
+        format.html # show.html.erb
+        format.json { render json: @user }
+      end
+    else
+      redirect_to user_path(@actual_user)
     end
   end
 

@@ -1,4 +1,8 @@
 ServiceDesign::Application.routes.draw do
+  match "access/login"
+
+  get "access/logout"
+
   resources :sessions
 
   resources :messages

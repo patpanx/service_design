@@ -14,7 +14,12 @@
   <b>Password:</b>
   <%= @user.password %>
 </p>
-
+<% if @actual_user.is_admin? %>
+<p>
+  <b>admin:</b>
+  <%= @user.admin %>
+</p>
+<% end %>
 
 <%= link_to 'Edit', edit_user_path(@user) %> |
 <%= link_to 'Back', users_path %>

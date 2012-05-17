@@ -1,14 +1,25 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>ServiceDesign</title>
-  <%= stylesheet_link_tag    "application", :media => "all" %>
-  <%= javascript_include_tag "application" %>
-  <%= csrf_meta_tags %>
-</head>
-<body>
+	<head>
+		<title>ServiceDesign</title>
+		<%= stylesheet_link_tag    "application", :media => "all" %>
+		<%= javascript_include_tag "application" %>
+		<%= csrf_meta_tags %>
+	</head>
+	<body>
+		<div class="w980">
+			<div id="navi">
+				<% unless @actual_user.blank?%>
+				<%= link_to 'Profile', user_path(@actual_user) %>
+				<%= link_to 'Sessions', sessions_path %>
+				<%= link_to 'logout', access_logout_path%>
+				<%= yield :navi %>
+				<% end %>
 
-<%= yield %>
-
-</body>
+			</div>
+			<div id="content">
+			<%= yield %>
+			</div>
+		</div>
+	</body>
 </html>

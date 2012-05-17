@@ -23,6 +23,13 @@
     <%= f.label :password %><br />
     <%= f.text_field :password %>
   </div>
+  <% if @actual_user.is_admin?%>
+   <div class="admin">
+    <%= f.label :admin %><br />
+    <%= f.check_box :admin %>
+  </div>
+  <% end %>
+  
   <div class="actions">
     <%= f.submit %>
   </div>
