@@ -36,8 +36,8 @@ class SessionsController < ApplicationController
   # GET /sessions/new
   # GET /sessions/new.json
   def new
-    @session = Session.new
-
+    @session = Session.new(:owner_id=>@actual_user.id)
+    
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @session }
