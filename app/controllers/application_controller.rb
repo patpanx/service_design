@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   #check if user is logged in <- this is executed every time a controller is active
   before_filter :check_mobile
   before_filter :check_login
+  
   protect_from_forgery
   
   
