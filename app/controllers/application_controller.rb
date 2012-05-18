@@ -17,4 +17,11 @@ class ApplicationController < ActionController::Base
        redirect_to access_login_path, :notice => 'please login'
      end
    end
+   
+   def is_mobile?
+     
+     
+   end
+   
+   
 end

@@ -3,7 +3,6 @@
 <table>
   <tr>
   	<th>ID</th>
-    <th>Name</th>
     <th>Email</th>
     <th>Password</th>
     <th>Admin</th>
@@ -15,7 +14,6 @@
 <% @users.each do |user| %>
   <tr>
   	<td><%= user.id %></td>
-    <td><%= user.name %></td>
     <td><%= user.email %></td>
     <td><%= user.password_digest %></td>
      <td><%= user.admin %></td>

@@ -29,7 +29,8 @@ class AccessController < ApplicationController
         # if email and password == blank, create a new empty user - anonym user
         if params[ '/access/login' ][ :email ].blank? && params[ '/access/login' ][ :password_digest ].blank?
           #check if its first user - gets admin rights
-          if false
+          
+          if User.all.blank?
             @user = User.new(:admin => 1)
           else
             @user = User.new()
