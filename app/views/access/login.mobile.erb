@@ -1,17 +1,23 @@
 <h1>Mobile Login</h1>
 
 <%= form_for( '/access/login') do |f| %>
-<div class="field">
-	<%= f.label :email %><br />
-	<%= f.text_field :email %>
-</div>
- <div class="field">
-	<%= f.label :password_digest %><br />
-	<%= f.password_field :password_digest %>
+
+<%= link_to 'Show Login', '#login', id:'login_toggle' %>
+<div class="login" style="display: none">
+	<div class="field">
+		<%= f.label :email %>
+		<br />
+		<%= f.text_field :email %>
+	</div>
+	<div class="field">
+		<%= f.label :password_digest %>
+		<br />
+		<%= f.password_field :password_digest %>
+	</div>
 </div>
 
 <div class="action">
-	
+
 	<%= f.submit 'Login'%>
 </div>
 <% end %>

@@ -6,7 +6,10 @@ class AccessController < ApplicationController
 
       @user = User.new
       respond_to do |format|
-        format.html
+        format.html #login.html.erb
+        format.mobile do
+          render :action => 'login', :formats => 'html', :layout => 'application.mobile.erb'
+        end
       end
     else
 
@@ -31,7 +34,7 @@ class AccessController < ApplicationController
         # if email and password == blank, create a new empty user - anonym user
         if params[ '/access/login' ][ :email ].blank? && params[ '/access/login' ][ :password_digest ].blank?
           #check if its first user - gets admin rights
-          
+
           if User.all.blank?
             @user = User.new(:admin => 1)
           else

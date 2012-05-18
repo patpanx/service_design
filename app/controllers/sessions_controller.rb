@@ -1,4 +1,4 @@
-class SessionsController < ApplicationController 
+class SessionsController < ApplicationController
   # GET /sessions
   # GET /sessions.json
   def index
@@ -7,6 +7,9 @@ class SessionsController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @sessions }
+      format.mobile do
+        render :action => 'show', :formats => 'html', :layout => 'application.mobile.erb'
+      end
     end
   end
 
@@ -18,6 +21,9 @@ class SessionsController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @session }
+      format.mobile do
+        render :action => 'show', :formats => 'html', :layout => 'application.mobile.erb'
+      end
     end
   end
 

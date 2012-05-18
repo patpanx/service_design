@@ -1,0 +1,43 @@
+body{
+  background-color:#444;
+}
+
+.w980 {
+  font-family: verdana, arial, helvetica, sans-serif;
+  font-size: 13px;
+  width:320px;
+  background-color: #EEEEEE;
+  padding: 0em;
+  position:relative;
+  margin: 0 auto;
+  
+  
+}
+
+#navi{
+  background-color: #AAAAAA;
+  color: #000;
+  text-align:right;
+  padding: 0.25em 1em;
+  
+}
+a, a:visited, a:hover {
+  color: #222;
+  text-decoration:none;
+  padding: 0em 1em;
+}
+a:active {
+  color: #000;
+}
+
+a#login_toggle{
+
+	padding: 0em;
+	text-decoration: underline;
+	
+}
+
+#content{
+  padding: 1em;
+  
+}
