@@ -17,7 +17,7 @@ class AccessController < ApplicationController
       #debuging
       logger.debug "-- @user:#{@user}"
       logger.debug "-- params['/access/login'][ :email]:#{params[ '/access/login' ][ :email ]}"
-              logger.debug "-- params['/access/login'][ :password_digest]:#{params[ '/access/login' ][ :password_digest ]}"
+      logger.debug "-- params['/access/login'][ :password_digest]:#{params[ '/access/login' ][ :password_digest ]}"
 
       #if user is not blank save user.id in session an redirect to user-settings
       unless @user.blank?
