@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
   
   
   has_many :messages
-  has_many :sessions
+  has_many :sessions, :foreign_key => 'owner_id'
   
   
   def is_admin?

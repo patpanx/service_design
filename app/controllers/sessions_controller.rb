@@ -2,8 +2,11 @@ class SessionsController < ApplicationController
   # GET /sessions
   # GET /sessions.json
   def index
-    @sessions = Session.all
-
+    if @actual_user.is_admin?
+      @sessions = Session.all
+    else
+      @sessions = @actual_user.sessions
+    end
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @sessions }
@@ -17,13 +20,16 @@ class SessionsController < ApplicationController
   # GET /sessions/1.json
   def show
     @session = Session.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @session }
-      format.mobile do
-        render :action => 'show', :formats => 'html', :layout => 'application.mobile.erb'
+    if @actual_user.is_admin? || @actual_user.id == @session.owner_id
+      respond_to do |format|
+        format.html # show.html.erb
+        format.json { render json: @session }
+        format.mobile do
+          render :action => 'show', :formats => 'html', :layout => 'application.mobile.erb'
+        end
       end
+    else
+     redirect_to sessions_path
     end
   end
 
