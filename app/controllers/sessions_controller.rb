@@ -8,7 +8,7 @@ class SessionsController < ApplicationController
       format.html # index.html.erb
       format.json { render json: @sessions }
       format.mobile do
-        render :action => 'show', :formats => 'html', :layout => 'application.mobile.erb'
+        render :action => 'index', :formats => 'html', :layout => 'application.mobile.erb'
       end
     end
   end
@@ -35,12 +35,22 @@ class SessionsController < ApplicationController
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @session }
+      format.mobile do
+        render :action => 'new', :formats => 'html', :layout => 'application.mobile.erb'
+      end
     end
   end
 
   # GET /sessions/1/edit
   def edit
     @session = Session.find(params[:id])
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render json: @sessions }
+      format.mobile do
+        render :action => 'edit', :formats => 'html', :layout => 'application.mobile.erb'
+      end
+    end
   end
 
   # POST /sessions
@@ -52,9 +62,13 @@ class SessionsController < ApplicationController
       if @session.save
         format.html { redirect_to @session, notice: 'Session was successfully created.' }
         format.json { render json: @session, status: :created, location: @session }
+        format.mobile { redirect_to @session, notice: 'Session was successfully created.' }
       else
         format.html { render action: "new" }
         format.json { render json: @session.errors, status: :unprocessable_entity }
+        format.mobile do
+          render :action => 'new', :formats => 'html', :layout => 'application.mobile.erb'
+        end
       end
     end
   end
@@ -68,9 +82,13 @@ class SessionsController < ApplicationController
       if @session.update_attributes(params[:session])
         format.html { redirect_to @session, notice: 'Session was successfully updated.' }
         format.json { head :no_content }
+        format.mobile { redirect_to @session, notice: 'Session was successfully updated.' }
       else
         format.html { render action: "edit" }
         format.json { render json: @session.errors, status: :unprocessable_entity }
+        format.mobile do
+          render :action => 'edit', :formats => 'html', :layout => 'application.mobile.erb'
+        end
       end
     end
   end
@@ -84,6 +102,7 @@ class SessionsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to sessions_url }
       format.json { head :no_content }
+      format.mobile { redirect_to sessions_url }
     end
   end
 end
