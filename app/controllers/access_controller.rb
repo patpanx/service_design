@@ -11,7 +11,7 @@ class AccessController < ApplicationController
       end
     else
       #check if user exits in db
-      @user = User.find_by_email_and_password(
+      @user = User.find_by_email_and_password_digest(
           params[ '/access/login' ][ :email ],
           params[ '/access/login' ][ :password ] )
           
