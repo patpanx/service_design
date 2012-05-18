@@ -20,15 +20,15 @@
     <%= f.text_field :email %>
   </div>
   <div class="field">
-    <%= f.label :password %><br />
-    <%= f.text_field :password %>
+    <%= f.label :password_digest %><br />
+    <%= f.text_field :password_digest %>
   </div>
-  <% if @actual_user.is_admin?%>
+  <% #if @actual_user.is_admin?%>
    <div class="admin">
     <%= f.label :admin %><br />
     <%= f.check_box :admin %>
   </div>
-  <% end %>
+  <% #end %>
   
   <div class="actions">
     <%= f.submit %>
