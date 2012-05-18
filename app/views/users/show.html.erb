@@ -1,8 +1,8 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <b>Name:</b>
-  <%= @user.name %>
+  <b>ID:</b>
+  <%= @user.id %>
 </p>
 
 <p>
@@ -12,7 +12,7 @@
 
 <p>
   <b>Password:</b>
-  <%= @user.password %>
+  <%= @user.password_digest %>
 </p>
 <% if @actual_user.is_admin? %>
 <p>
