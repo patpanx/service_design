@@ -44,21 +44,21 @@ class UsersController < ApplicationController
       format.html # new.html.erb
       format.json { render json: @user }
       format.mobile do
-          render :action => 'new', :formats => 'html', :layout => 'application.mobile.erb'
-        end
+        render :action => 'new', :formats => 'html', :layout => 'application.mobile.erb'
+      end
     end
   end
 
   # GET /users/1/edit
   def edit
     @user = User.find(params[:id])
-    
+
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @user }
       format.mobile do
-          render :action => 'edit', :formats => 'html', :layout => 'application.mobile.erb'
-        end
+        render :action => 'edit', :formats => 'html', :layout => 'application.mobile.erb'
+      end
     end
   end
 

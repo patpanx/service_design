@@ -1,4 +1,8 @@
 ServiceDesign::Application.routes.draw do
+  resources :positions do
+    get :save, :on => :collection # :on => :collection
+  end
+
   match "access/login"
 
   get "access/logout"

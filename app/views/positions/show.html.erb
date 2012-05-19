@@ -1,0 +1,40 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>User:</b>
+  <%= @position.user_id %>
+</p>
+
+<p>
+  <b>Lat:</b>
+  <%= @position.lat %>
+</p>
+
+<p>
+  <b>Long:</b>
+  <%= @position.long %>
+</p>
+
+<p>
+  <b>Altitude:</b>
+  <%= @position.altitude %>
+</p>
+
+<p>
+  <b>Accuracy:</b>
+  <%= @position.accuracy %>
+</p>
+
+<p>
+  <b>Altitude accuracy:</b>
+  <%= @position.altitude_accuracy %>
+</p>
+
+<p>
+  <b>Timestamp:</b>
+  <%= @position.timestamp %>
+</p>
+
+
+<%= link_to 'Edit', edit_position_path(@position) %> |
+<%= link_to 'Back', positions_path %>

@@ -1,0 +1,38 @@
+<h1>Listing positions</h1>
+
+<table>
+  <tr>
+    <th>User</th>
+    <th>Lat</th>
+    <th>Long</th>
+    <th>Altitude</th>
+    <th>Accuracy</th>
+    <th>Altitude accuracy</th>
+    <th>Timestamp</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @positions.each do |position| %>
+  <tr>
+    <td><%= position.user_id %></td>
+    <td><%= position.lat %></td>
+    <td><%= position.long %></td>
+    <td><%= position.altitude %></td>
+    <td><%= position.accuracy %></td>
+    <td><%= position.altitude_accuracy %></td>
+    <td><%= position.timestamp %></td>
+    <td><%= link_to 'Show', position %></td>
+    <td><%= link_to 'Edit', edit_position_path(position) %></td>
+    <td><%= link_to 'Destroy', position, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Position', new_position_path %>
+
+<%= link_to 'Save Current Position', save_positions_path %>
+
