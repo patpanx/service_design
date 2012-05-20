@@ -7,17 +7,23 @@ class ApplicationController < ActionController::Base
   
   
   #nunaccessible from outside the controllers
-  protected
+  privat
   
  #chek_login method
-   def check_login
-     #save User in session to actual_user
-     @actual_user = User.find_by_id( session[:logged_user_id])
-     #if actual_user is blank redirect to login_page
-     if @actual_user.blank?
-       redirect_to access_login_path, :notice => 'please login'
-     end
-   end
+  def check_login
+    #save User in session to actual_user
+    @actual_user = User.find_by_id( session[:logged_user_id])
+    #if actual_user is blank redirect to login_page
+    if @actual_user.blank?
+      redirect_to access_login_path, :notice => 'please login'
+    end
+  end
+   
+  def user_signed_in?
+    actual_user.present?
+  end
+  helper_method :user_signed_in? 
+   
    
    def is_mobile?
      if session[ :is_mobile]
@@ -32,6 +38,6 @@ class ApplicationController < ActionController::Base
       session[ :is_mobile ] = params[ :mobile ] if params[ :mobile ]
       request.format = :mobile if is_mobile?
       logger.debug "---- user agent: #{request.user_agent}"
-    end
+   end
    
 end

@@ -2,10 +2,10 @@ class SessionsController < ApplicationController
   # GET /sessions
   # GET /sessions.json
   def index
-    if @actual_user.is_admin?
+    if actual_user.is_admin?
       @sessions = Session.all
     else
-      @sessions = @actual_user.sessions
+      @sessions = actual_user.sessions
     end
     respond_to do |format|
       format.html # index.html.erb
@@ -20,7 +20,7 @@ class SessionsController < ApplicationController
   # GET /sessions/1.json
   def show
     @session = Session.find(params[:id])
-    if @actual_user.is_admin? || @actual_user.id == @session.owner_id
+    if actual_user.is_admin? || actual_user.id == @session.owner_id
       respond_to do |format|
         format.html # show.html.erb
         format.json { render json: @session }
@@ -36,7 +36,7 @@ class SessionsController < ApplicationController
   # GET /sessions/new
   # GET /sessions/new.json
   def new
-    @session = Session.new(:owner_id=>@actual_user.id)
+    @session = Session.new(:owner_id=>actual_user.id)
     
     respond_to do |format|
       format.html # new.html.erb
