@@ -19,7 +19,12 @@ class SessionsController < ApplicationController
   # GET /sessions/1
   # GET /sessions/1.json
   def show
-    @session = current_user.sessions.find(params[:id])
+    if is_admin?
+      @session = Session.find(params[:id])
+    else
+      @session = current_user.sessions.find(params[:id])
+    end
+    
     if is_admin? || current_user.id == @session.owner_id
       respond_to do |format|
         format.html # show.html.erb
@@ -49,10 +54,15 @@ class SessionsController < ApplicationController
 
   # GET /sessions/1/edit
   def edit
-    @session = current_user.sessions.find(params[:id])
+    if is_admin?
+      @session = Session.find(params[:id])
+    else
+      @session = current_user.sessions.find(params[:id])
+    end
+    
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @sessions }
+      format.json { render json: @session }
       format.mobile do
         render :action => 'edit', :formats => 'html', :layout => 'application.mobile.erb'
       end
@@ -62,7 +72,7 @@ class SessionsController < ApplicationController
   # POST /sessions
   # POST /sessions.json
   def create
-    @session = current_user.sessions.new(params[:session])
+    @session = current_user.sessions.build(params[:session])    
 
     respond_to do |format|
       if @session.save
@@ -82,7 +92,11 @@ class SessionsController < ApplicationController
   # PUT /sessions/1
   # PUT /sessions/1.json
   def update
-    @session = current_user.sessions.find(params[:id])
+    if is_admin?
+      @session = Session.find(params[:id])
+    else
+      @session = current_user.sessions.find(params[:id])
+    end
 
     respond_to do |format|
       if @session.update_attributes(params[:session])
@@ -102,7 +116,11 @@ class SessionsController < ApplicationController
   # DELETE /sessions/1
   # DELETE /sessions/1.json
   def destroy
-    @session = current_user.sessions.find(params[:id])
+    if is_admin?
+      @session = Session.find(params[:id])
+    else
+      @session = current_user.sessions.find(params[:id])
+    end
     @session.destroy
 
     respond_to do |format|
