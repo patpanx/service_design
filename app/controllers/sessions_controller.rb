@@ -2,7 +2,7 @@ class SessionsController < ApplicationController
   # GET /sessions
   # GET /sessions.json
   def index
-    if current_user.is_admin?
+    if is_admin?
       @sessions = Session.all
     else
       @sessions = current_user.sessions

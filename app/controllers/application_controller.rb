@@ -1,10 +1,10 @@
 class ApplicationController < ActionController::Base
   #check if user is logged in <- this is executed every time a controller is active
+  #check if user_agent is a mobile device <- this is executed every time a controller is active
   before_filter :check_mobile
 
+  #unaccessible from outside the controllers
   protect_from_forgery
-
-  #nunaccessible from outside the controllers
   private
 
   #chek_login method
@@ -19,6 +19,13 @@ class ApplicationController < ActionController::Base
   end
   helper_method :user_signed_in?
 
+  #user with admin-access
+  def is_admin?
+    return(current_user.admin)
+  end
+  helper_method :is_admin
+
+  #check if user_agent is a mobile device
   def check_mobile
     session[ :is_mobile ] = params[ :mobile ] if params[ :mobile ]
     request.format = :mobile if is_mobile?
@@ -33,5 +40,5 @@ class ApplicationController < ActionController::Base
     end
   end
   helper_method :is_mobile
-
+  
 end
