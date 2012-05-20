@@ -1,6 +1,6 @@
 class AccessController < ApplicationController
   #before_filter exeption - because you have to see the login page even without be logged in
-  skip_before_filter :check_login, :only => [:login]
+  skip_before_filter :user_signed_in, :only => [:login]
   def login
     unless request.post?
 
