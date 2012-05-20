@@ -19,7 +19,7 @@
     <%= f.label :password_digest %><br />
     <%= f.text_field :password_digest %>
   </div>
-  <% if @actual_user.is_admin?%>
+  <% if is_admin? %>
    <div class="admin">
     <%= f.label :admin %><br />
     <%= f.check_box :admin %>

@@ -1,4 +1,9 @@
 class SessionsController < ApplicationController
+  #check if user is logged in <- this is executed every time a controller is active
+  before_filter :require_login
+  #check if user_agent is a mobile device <- this is executed every time a controller is active
+  before_filter :check_mobile
+  
   # GET /sessions
   # GET /sessions.json
   def index
@@ -20,7 +25,7 @@ class SessionsController < ApplicationController
   # GET /sessions/1.json
   def show
     @session = Session.find(params[:id])
-    if current_user.is_admin? || current_user.id == @session.owner_id
+    if is_admin? || current_user.id == @session.owner_id
       respond_to do |format|
         format.html # show.html.erb
         format.json { render json: @session }
@@ -109,12 +114,6 @@ class SessionsController < ApplicationController
       format.html { redirect_to sessions_url }
       format.json { head :no_content }
       format.mobile { redirect_to sessions_url }
-    end
-  end
-  
-  def require_login
-    unless user_signed_in?
-      redirect_to access_login_path, :notice => 'please login'
     end
   end
   

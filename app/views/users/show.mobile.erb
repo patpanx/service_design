@@ -14,7 +14,7 @@
   <b>Password:</b>
   <%= @user.password_digest %>
 </p>
-<% if @actual_user.is_admin? %>
+<% if is_admin? %>
 <p>
   <b>admin:</b>
   <%= @user.admin %>

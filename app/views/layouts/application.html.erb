@@ -9,8 +9,8 @@
 	<body>
 		<div class="w980">
 			<div id="navi">
-				<% unless @actual_user.blank?%>
-				<%= link_to 'Profile', user_path(@actual_user) %>
+				<% unless @current_user.blank?%>
+				<%= link_to 'Profile', user_path(@current_user) %>
 				<%= link_to 'Sessions', sessions_path %>
 				<%= link_to 'logout', access_logout_path%>
 				<%= yield :navi %>

@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   def index
     @users = User.all
     #only show user list when user is admin
-    if @actual_user.is_admin?
+    if is_admin?
       respond_to do |format|
         format.html # show.html.erb
         format.json { render json: @user }
@@ -13,7 +13,7 @@ class UsersController < ApplicationController
         end
       end
     else
-      redirect_to user_path(@actual_user)
+      redirect_to user_path(current_user)
     end
   end
 
@@ -22,7 +22,7 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
     #checks if user is admin or if actual_user is the same as the profile that will be shown
-    if @actual_user.is_admin? || @actual_user == @user
+    if is_admin? || current_user == @user
       respond_to do |format|
         format.html # show.html.erb
         format.json { render json: @user }
@@ -31,7 +31,7 @@ class UsersController < ApplicationController
         end
       end
     else
-      redirect_to user_path(@actual_user)
+      redirect_to user_path(current_user)
     end
   end
 
