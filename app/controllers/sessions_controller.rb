@@ -19,7 +19,7 @@ class SessionsController < ApplicationController
   # GET /sessions/1
   # GET /sessions/1.json
   def show
-    @session = Session.find(params[:id])
+    @session = current_user.sessions.find(params[:id])
     if is_admin? || current_user.id == @session.owner_id
       respond_to do |format|
         format.html # show.html.erb
@@ -36,7 +36,7 @@ class SessionsController < ApplicationController
   # GET /sessions/new
   # GET /sessions/new.json
   def new
-    @session = Session.new(:owner_id=>current_user.id)
+    @session = current_user.sessions.new(:owner_id=>current_user.id)
     
     respond_to do |format|
       format.html # new.html.erb
@@ -49,7 +49,7 @@ class SessionsController < ApplicationController
 
   # GET /sessions/1/edit
   def edit
-    @session = Session.find(params[:id])
+    @session = current_user.sessions.find(params[:id])
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @sessions }
@@ -62,7 +62,7 @@ class SessionsController < ApplicationController
   # POST /sessions
   # POST /sessions.json
   def create
-    @session = Session.new(params[:session])
+    @session = current_user.sessions.new(params[:session])
 
     respond_to do |format|
       if @session.save
@@ -82,7 +82,7 @@ class SessionsController < ApplicationController
   # PUT /sessions/1
   # PUT /sessions/1.json
   def update
-    @session = Session.find(params[:id])
+    @session = current_user.sessions.find(params[:id])
 
     respond_to do |format|
       if @session.update_attributes(params[:session])
@@ -102,7 +102,7 @@ class SessionsController < ApplicationController
   # DELETE /sessions/1
   # DELETE /sessions/1.json
   def destroy
-    @session = Session.find(params[:id])
+    @session = current_user.sessions.find(params[:id])
     @session.destroy
 
     respond_to do |format|
