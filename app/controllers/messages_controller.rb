@@ -1,8 +1,4 @@
 class MessagesController < ApplicationController
-  #check if user is logged in <- this is executed every time a controller is active
-  before_filter :require_login
-  #check if user_agent is a mobile device <- this is executed every time a controller is active
-  before_filter :check_mobile
   # GET /messages
   # GET /messages.json
   def index
