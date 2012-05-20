@@ -1,4 +1,9 @@
 class ApplicationController < ActionController::Base
+  #check if user is logged in <- this is executed every time a controller is active
+  before_filter :require_login
+  #check if user_agent is a mobile device <- this is executed every time a controller is active
+  before_filter :check_mobile 
+ 
   #unaccessible from outside the controllers
   protect_from_forgery
   private
@@ -33,9 +38,11 @@ class ApplicationController < ActionController::Base
 
   #check if user_agent is a mobile device
   def check_mobile
-    session[ :is_mobile ] = params[ :mobile ] if params[ :mobile ]
-    request.format = :mobile if is_mobile?
-    logger.debug "---- user agent: #{request.user_agent}"
+    unless session[ :is_mobile]
+      session[ :is_mobile ] = params[ :mobile ] if params[ :mobile ]
+      request.format = :mobile if is_mobile?
+      logger.debug "---- user agent: #{request.user_agent}"
+    end
   end
 
   def is_mobile?

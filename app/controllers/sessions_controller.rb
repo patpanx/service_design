@@ -1,9 +1,4 @@
 class SessionsController < ApplicationController
-  #check if user is logged in <- this is executed every time a controller is active
-  before_filter :require_login
-  #check if user_agent is a mobile device <- this is executed every time a controller is active
-  before_filter :check_mobile
-  
   # GET /sessions
   # GET /sessions.json
   def index
@@ -24,7 +19,12 @@ class SessionsController < ApplicationController
   # GET /sessions/1
   # GET /sessions/1.json
   def show
-    @session = Session.find(params[:id])
+    if is_admin?
+      @session = Session.find(params[:id])
+    else
+      @session = current_user.sessions.find(params[:id])
+    end
+    
     if is_admin? || current_user.id == @session.owner_id
       respond_to do |format|
         format.html # show.html.erb
@@ -41,7 +41,7 @@ class SessionsController < ApplicationController
   # GET /sessions/new
   # GET /sessions/new.json
   def new
-    @session = Session.new(:owner_id=>current_user.id)
+    @session = current_user.sessions.new(:owner_id=>current_user.id)
     
     respond_to do |format|
       format.html # new.html.erb
@@ -54,10 +54,15 @@ class SessionsController < ApplicationController
 
   # GET /sessions/1/edit
   def edit
-    @session = Session.find(params[:id])
+    if is_admin?
+      @session = Session.find(params[:id])
+    else
+      @session = current_user.sessions.find(params[:id])
+    end
+    
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @sessions }
+      format.json { render json: @session }
       format.mobile do
         render :action => 'edit', :formats => 'html', :layout => 'application.mobile.erb'
       end
@@ -67,7 +72,7 @@ class SessionsController < ApplicationController
   # POST /sessions
   # POST /sessions.json
   def create
-    @session = Session.new(params[:session])
+    @session = current_user.sessions.build(params[:session])    
 
     respond_to do |format|
       if @session.save
@@ -87,7 +92,11 @@ class SessionsController < ApplicationController
   # PUT /sessions/1
   # PUT /sessions/1.json
   def update
-    @session = Session.find(params[:id])
+    if is_admin?
+      @session = Session.find(params[:id])
+    else
+      @session = current_user.sessions.find(params[:id])
+    end
 
     respond_to do |format|
       if @session.update_attributes(params[:session])
@@ -107,7 +116,11 @@ class SessionsController < ApplicationController
   # DELETE /sessions/1
   # DELETE /sessions/1.json
   def destroy
-    @session = Session.find(params[:id])
+    if is_admin?
+      @session = Session.find(params[:id])
+    else
+      @session = current_user.sessions.find(params[:id])
+    end
     @session.destroy
 
     respond_to do |format|

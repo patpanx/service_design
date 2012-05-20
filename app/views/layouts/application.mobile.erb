@@ -19,8 +19,8 @@
 			<%= yield %>
 			</div>
 			<div id="navi">
-				<% unless current_user.blank?%>
-				<%= link_to 'Profile', user_path(current_user) %>
+				<% unless @current_user.blank?%>
+				<%= link_to 'Profile', user_path(@current_user) %>
 				<%= link_to 'Sessions', sessions_path %>
 				<%= link_to 'logout', access_logout_path%>
 				<%= yield :navi %>

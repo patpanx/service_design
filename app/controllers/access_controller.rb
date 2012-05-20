@@ -1,6 +1,7 @@
 class AccessController < ApplicationController
   #before_filter exeption - because you have to see the login page even without be logged in
-  skip_before_filter :user_signed_in, :only => [:login]
+  skip_before_filter :require_login, :only => [:login]
+  
   def login
     unless request.post?
 
@@ -55,6 +56,7 @@ class AccessController < ApplicationController
   def logout
     #save nil to session id - clear sesion_id
     session[ :logged_user_id] = nil
+    session[ :is_mobile] = nil
     redirect_to access_login_path
   end
 end
