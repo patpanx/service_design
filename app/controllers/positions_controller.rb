@@ -3,7 +3,6 @@ class PositionsController < ApplicationController
   before_filter :require_login
   #check if user_agent is a mobile device <- this is executed every time a controller is active
   before_filter :check_mobile
-  
   # GET /positions
   # GET /positions.json
   def index
@@ -87,10 +86,17 @@ class PositionsController < ApplicationController
   end
 
   def save
-    @position = Position.new
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @position }
+    unless request.post?
+      
+      respond_to do |format|
+        format.html # new.html.erb
+        format.json { render json: @position }
+      end
+    else
+      @position = Position.new(:user_id => @current_user.id, :lat => params[:coords][ :latitude ], :long => params[:coords][ :longitude ], :altitude => params[:coords][ :altitude ], :accuracy => params[:coords][ :accuracy ], :altitude_accuracy => params[:coords][ :altitude_accuracy ], :timestamp => params[ :timestamp ])
+      logger.debug "-- params[ :timestamp]:#{params[ :timestamp ]}"
+      @position.save
+      redirect_to position_path(@position)
     end
   end
 end

@@ -4,6 +4,6 @@ class PasswordToPasswordDigest < ActiveRecord::Migration
   end
 
   def down
-    change_rename :users, :password_digest, :password
+    rename_column :users, :password_digest, :password
   end
 end
