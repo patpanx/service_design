@@ -38,9 +38,11 @@ class ApplicationController < ActionController::Base
 
   #check if user_agent is a mobile device
   def check_mobile
-    session[ :is_mobile ] = params[ :mobile ] if params[ :mobile ]
-    request.format = :mobile if is_mobile?
-    logger.debug "---- user agent: #{request.user_agent}"
+    unless session[ :is_mobile]
+      session[ :is_mobile ] = params[ :mobile ] if params[ :mobile ]
+      request.format = :mobile if is_mobile?
+      logger.debug "---- user agent: #{request.user_agent}"
+    end
   end
 
   def is_mobile?

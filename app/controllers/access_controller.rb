@@ -56,6 +56,7 @@ class AccessController < ApplicationController
   def logout
     #save nil to session id - clear sesion_id
     session[ :logged_user_id] = nil
+    session[ :is_mobile] = nil
     redirect_to access_login_path
   end
 end
