@@ -41,15 +41,13 @@ class SessionsController < ApplicationController
   # GET /sessions/new
   # GET /sessions/new.json
   def new
-    @session = current_user.sessions.new(:owner_id=>current_user.id)
+    logger.debug "-- current_user.id:#{ @current_user.id }"
+    @session = Session.new(:owner_id => current_user.id)
+    @session.save
+    @message = Message.new(:session_id => @session.id, :owner_id => current_user.id)
     
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @session }
-      format.mobile do
-        render :action => 'new', :formats => 'html', :layout => 'application.mobile.erb'
-      end
-    end
+    @message.save
+    redirect_to edit_message_path(@message)
   end
 
   # GET /sessions/1/edit
@@ -72,7 +70,8 @@ class SessionsController < ApplicationController
   # POST /sessions
   # POST /sessions.json
   def create
-    @session = current_user.sessions.build(params[:session])    
+    @session = current_user.sessions.new(params[:session])
+    
 
     respond_to do |format|
       if @session.save
