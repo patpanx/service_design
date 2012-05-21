@@ -34,3 +34,16 @@ a:active {
   padding: 1em;
   
 }
+
+td {
+  padding: 0em 1em;
+  
+}
+
+tr{
+    background-color: #DDD;
+}
+
+tr:nth-child(odd) {
+  background-color: #CCC;
+}
