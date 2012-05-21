@@ -1,0 +1,19 @@
+<p id="notice">
+	<%= notice %>
+</p>
+<h1>show active Session</h1>
+
+
+<% @active_messages.each do |message|%>
+<div class="session">
+	<% @active_session = message.session %>
+	<% @active_session.message.each do |messages| %>
+    	<div class="text"><%= messages.text %></div>
+    	<% if messages.status == "new"%>
+    	<p><%= link_to 'respond', edit_message_path(message) %></p>
+    	<% end %>
+    <%end%>	
+    
+  </tr>
+</div>
+<% end %>

@@ -1,19 +1,60 @@
-<p id="notice"><%= notice %></p>
-
-<p>
-  <b>Owner:</b>
-  <%= @session.owner_id %>
+<p id="notice">
+	<%= notice %>
 </p>
 
 <p>
-  <b>Timeout:</b>
-  <%= @session.timeout %>
+	<b>Owner:</b>
+	<%= @session.owner_id %>
 </p>
 
 <p>
-  <b>Forwarding time:</b>
-  <%= @session.forwarding_time %>
+	<b>Timeout:</b>
+	<%= @session.timeout %>
 </p>
+
+<p>
+	<b>Forwarding time:</b>
+	<%= @session.forwarding_time %>
+</p>
+
+<p>
+	<% @session.message.each do |message| %>
+	<div class="session">
+		<b>Session:</b>
+		<%= message.session_id %>
+</p>
+
+<p>
+	<b>Owner:</b>
+	<%= message.owner_id %>
+</p>
+
+<p>
+	<b>Timestamp:</b>
+	<%= message.timestamp %>
+</p>
+
+<p>
+	<b>Receiver:</b>
+	<%= message.receiver_id %>
+</p>
+
+<p>
+	<b>Text:</b>
+	<%= message.text %>
+</p>
+
+<p>
+	<b>Media:</b>
+	<%= message.media %>
+</p>
+
+<p>
+	<b>Location:</b>
+	<%= message.location_id %>
+</p>
+</div>
+<% end %>
 
 
 <%= link_to 'Edit', edit_session_path(@session) %> |

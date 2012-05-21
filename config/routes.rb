@@ -7,9 +7,12 @@ ServiceDesign::Application.routes.draw do
 
   get "access/logout"
 
-  resources :sessions
+  resources :sessions 
 
-  resources :messages
+  resources :messages do
+    get :send_message, :on => :member
+    get :show_active, :on => :collection
+  end
 
   resources :users
   

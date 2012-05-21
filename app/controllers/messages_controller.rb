@@ -35,6 +35,7 @@ class MessagesController < ApplicationController
   # GET /messages/1/edit
   def edit
     @message = Message.find(params[:id])
+
   end
 
   # POST /messages
@@ -60,13 +61,34 @@ class MessagesController < ApplicationController
 
     respond_to do |format|
       if @message.update_attributes(params[:message])
-        format.html { redirect_to @message, notice: 'Message was successfully updated.' }
+        format.html { redirect_to @message, notice: 'Message was successfully sent.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
         format.json { render json: @message.errors, status: :unprocessable_entity }
       end
+
     end
+    max_id = User.maximum("id")
+    min_id = User.minimum("id")
+    id_range = max_id - min_id + 1
+    begin
+    random_id = min_id + rand(id_range).to_i
+    logger.debug "---- random_id: #{ random_id }"
+    logger.debug "---- User.find(random_id).blank?: #{ User.find_by_id(random_id).blank? }"
+    end while random_id == @current_user.id || User.find_by_id(random_id).blank?
+    @randomUser = User.find_by_id(random_id)
+    logger.debug "---- users: #{ @randomUser.id }"
+    
+    @message.receiver_id = @randomUser.id
+    @message.status = "sent"
+    @message.save
+    
+    if @message.session.message.size <2
+    @re_message = Message.new( :owner_id => @randomUser.id, :session_id => @message.session_id, :receiver_id => @message.owner_id)
+    @re_message.save
+    end
+    
   end
 
   # DELETE /messages/1
@@ -80,4 +102,18 @@ class MessagesController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  def send_message
+    message = Message.find(params[:id])
+  end
+  
+  def show_active
+     #@message = Message.find(params[:id])
+    @active_messages = Message.find(:all, :conditions => {:owner_id => @current_user.id, :status => "new"}, :order => "updated_at DESC" )  
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json { render json: @message }
+    end
+  end
+
 end

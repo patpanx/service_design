@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120521112814) do
+ActiveRecord::Schema.define(:version => 20120521155716) do
 
   create_table "messages", :force => true do |t|
     t.integer  "session_id"
@@ -21,8 +21,9 @@ ActiveRecord::Schema.define(:version => 20120521112814) do
     t.text     "text"
     t.string   "media"
     t.integer  "location_id"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at",                     :null => false
+    t.datetime "updated_at",                     :null => false
+    t.string   "status",      :default => "new"
   end
 
   create_table "positions", :force => true do |t|

@@ -47,3 +47,13 @@ tr{
 tr:nth-child(odd) {
   background-color: #CCC;
 }
+
+.session {
+  background-color:#CCC;
+  padding: 1em;
+}
+
+.session:nth-child(odd){
+  
+  background-color:#BBB;
+}
