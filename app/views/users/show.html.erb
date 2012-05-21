@@ -1,24 +1,67 @@
-<p id="notice"><%= notice %></p>
-
-<p>
-  <b>ID:</b>
-  <%= @user.id %>
+<p id="notice">
+	<%= notice %>
 </p>
 
 <p>
-  <b>Email:</b>
-  <%= @user.email %>
+	<b>ID:</b>
+	<%= @user.id %>
 </p>
 
 <p>
-  <b>Password:</b>
-  <%= @user.password_digest %>
+	<b>Email:</b>
+	<%= @user.email %>
+</p>
+
+<p>
+	<b>Password:</b>
+	<%= @user.password_digest %>
 </p>
 <% if is_admin? %>
 <p>
-  <b>admin:</b>
-  <%= @user.admin %>
+	<b>admin:</b>
+	<%= @user.admin %>
 </p>
+<%= link_to 'Show Positions', '#positions', id:'position_toggle' %>
+<div class="positions" style="display: none">
+	<table>
+
+		<% @user.positions.each do |position| %>
+
+		<tr>
+			<td><%= position.user_id %></td>
+			<td><%= position.lat %></td>
+			<td><%= position.long %></td>
+			<td><%= position.altitude %></td>
+			<td><%= position.accuracy %></td>
+			<td><%= position.altitude_accuracy %></td>
+			<td><%= position.timestamp %></td>
+			<td><%= link_to 'Show', position %></td>
+			<td><%= link_to 'Edit', edit_position_path(position) %></td>
+			<td><%= link_to 'Destroy', position, confirm: 'Are you sure?', method: :delete %></td>
+		</tr>
+		<%end%>
+	</table>
+</div>
+<br />
+<%= link_to 'Show Sessions', '#sessions', id:'session_toggle' %>
+<div class="sessions" style="display: none">
+	<table>
+
+		<% @user.sessions.each do |session| %>
+
+		<tr>
+			<td><%= session.owner_id %></td>
+			<td><%= session.timeout %></td>
+			<td><%= session.forwarding_time %></td>
+			<td><%= link_to 'Show', session %></td>
+			<td><%= link_to 'Edit', edit_session_path(session) %></td>
+			<td><%= link_to 'Destroy', session, confirm: 'Are you sure?', method: :delete %></td>
+		</tr>
+		</tr>
+		<%end%>
+	</table>
+</div>
+<br />
 <% end %>
 
 <%= link_to 'Edit', edit_user_path(@user) %> |

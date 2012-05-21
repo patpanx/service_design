@@ -5,12 +5,12 @@
 $(document).ready ->
   
   $('#login_toggle').click (e) ->
-    $foto = $('div.login')
+    $positions = $('div.login')
     if $(this).text() == 'Show Login'
-      $foto.slideDown()
+      $positions.slideDown()
       $(this).text('Hide Login')
     else
-      $foto.slideUp()
+      $positions.slideUp()
       $(this).text('Show Login')
     e.preventDefault()
   
