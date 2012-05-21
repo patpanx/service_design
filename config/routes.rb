@@ -1,6 +1,6 @@
 ServiceDesign::Application.routes.draw do
   resources :positions do
-    match :save, :on => :collection # :on => :collection
+    match :save, :on => :collection # :on => :member
   end
 
   match "access/login"
