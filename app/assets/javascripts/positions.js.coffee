@@ -3,11 +3,9 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
 window.getPosition = ->
-  console.log 'hey'
   if navigator.geolocation
     # Get current position
     navigator.geolocation.getCurrentPosition(savePosition)
-    console.log 'hey'
   
 
 window.savePosition = (position) ->

@@ -1,14 +1,17 @@
 class PositionsController < ApplicationController
-  
+
   #check if user is logged in <- this is executed every time a controller is active
   before_filter :require_login
   #check if user_agent is a mobile device <- this is executed every time a controller is active
   before_filter :check_mobile
-
   # GET /positions
   # GET /positions.json
   def index
-    @positions = Position.all
+    if is_admin?
+      @positions = Position.all
+    else
+      @positions = current_user.positions
+    end
 
     respond_to do |format|
       format.html # index.html.erb
@@ -89,16 +92,26 @@ class PositionsController < ApplicationController
 
   def save
     unless request.post?
-      
+
       respond_to do |format|
-        format.html # new.html.erb
-        format.json { render json: @position }
+        format.html { render action: "save" }
+        format.json { render json: @session.errors, status: :unprocessable_entity }
+        format.mobile do
+          render :action => 'save', :formats => 'html', :layout => 'application.mobile.erb'
+        end
       end
     else
       @position = Position.new(:user_id => @current_user.id, :lat => params[:coords][ :latitude ], :long => params[:coords][ :longitude ], :altitude => params[:coords][ :altitude ], :accuracy => params[:coords][ :accuracy ], :altitude_accuracy => params[:coords][ :altitude_accuracy ], :timestamp => params[ :timestamp ])
       logger.debug "-- params[ :timestamp]:#{params[ :timestamp ]}"
       @position.save
-      redirect_to position_path(@position)
+      respond_to do |format|
+        format.html { render action: "save" }
+        format.json { render json: @session.errors, status: :unprocessable_entity }
+        format.mobile do
+          render :action => 'save', :formats => 'html', :layout => 'application.mobile.erb'
+        end
+      end
+    #redirect_to position_path(@position)
     end
   end
 end
