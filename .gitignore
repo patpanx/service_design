@@ -16,3 +16,4 @@
 *.class
 *.pyc
 *.pyo
+/public/assets
