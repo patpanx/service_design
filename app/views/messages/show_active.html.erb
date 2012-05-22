@@ -2,18 +2,35 @@
 	<%= notice %>
 </p>
 <h1>show active Session</h1>
-
+<% logger.debug "---- @active_session: #{ @active_session }"%>
 
 <% @active_messages.each do |message|%>
 <div class="session">
+	
 	<% @active_session = message.session %>
+	<div class="status"><%= @active_session.status %></div>
 	<% @active_session.message.each do |messages| %>
-    	<div class="text"><%= messages.text %></div>
-    	<% if messages.status == "new"%>
-    	<p><%= link_to 'respond', edit_message_path(message) %></p>
-    	<% end %>
-    <%end%>	
-    
-  </tr>
+	<div class="message">
+		<div class="header">
+	<div class="status"><%= messages.status %></div>
+	<div class="sender">from:<%= messages.owner_id %></div>
+	<div class="receiver">to:<%= messages.receiver_id %></div>
+	</div>
+	<div class="text">
+		
+		<%= messages.text %>
+	</div>
+	</div>
+	<% if messages.status == "sent"%>
+	
+		<%= link_to 'respond', edit_message_path(message), :class => 'respond'%>
+	
+	<% else %>
+	<% end %>
+
+	<% end %>
+
+	</tr>
 </div>
+
 <% end %>

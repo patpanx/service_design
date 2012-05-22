@@ -58,37 +58,39 @@ class MessagesController < ApplicationController
   # PUT /messages/1.json
   def update
     @message = Message.find(params[:id])
+    @receiver_id = @message.session.receiver_id
+    @message_session = @message.session
+    if @message.session.message.size <=1
+      @message.status = "asked"
+      @message_session.status = "asked"
+    else
+      @message.status = "answered"
+      @message_session.status = "answered"
+    end
+    logger.debug "---- @message.session: #{ @message.session }"
+    @message.receiver_id = @receiver_id
+    @message.save
+    @message_session.save
+
+    if @message.session.message.size <=1
+      @re_message = Message.new( :owner_id => @receiver_id, :session_id => @message.session_id)
+    @re_message.save
+    end
 
     respond_to do |format|
       if @message.update_attributes(params[:message])
-        format.html { redirect_to @message, notice: 'Message was successfully sent.' }
+        format.html { redirect_to show_active_sessions_path, notice: 'Session was successfully updated.' }
         format.json { head :no_content }
+        format.mobile { redirect_to show_active_sessions_path, notice: 'Session was successfully updated.' }
       else
         format.html { render action: "edit" }
         format.json { render json: @message.errors, status: :unprocessable_entity }
+        format.mobile do
+          render :action => 'edit', :formats => 'html', :layout => 'application.mobile.erb'
+        end
       end
+    end
 
-    end
-    max_id = User.maximum("id")
-    min_id = User.minimum("id")
-    id_range = max_id - min_id + 1
-    begin
-    random_id = min_id + rand(id_range).to_i
-    logger.debug "---- random_id: #{ random_id }"
-    logger.debug "---- User.find(random_id).blank?: #{ User.find_by_id(random_id).blank? }"
-    end while random_id == @current_user.id || User.find_by_id(random_id).blank?
-    @randomUser = User.find_by_id(random_id)
-    logger.debug "---- users: #{ @randomUser.id }"
-    
-    @message.receiver_id = @randomUser.id
-    @message.status = "sent"
-    @message.save
-    
-    if @message.session.message.size <2
-    @re_message = Message.new( :owner_id => @randomUser.id, :session_id => @message.session_id, :receiver_id => @message.owner_id)
-    @re_message.save
-    end
-    
   end
 
   # DELETE /messages/1
@@ -106,13 +108,16 @@ class MessagesController < ApplicationController
   def send_message
     message = Message.find(params[:id])
   end
-  
+
   def show_active
-     #@message = Message.find(params[:id])
-    @active_messages = Message.find(:all, :conditions => {:owner_id => @current_user.id, :status => "new"}, :order => "updated_at DESC" )  
+    #@message = Message.find(params[:id])
+    @active_messages = Message.find(:all, :conditions => {:owner_id => @current_user.id, :status => "new"}, :order => "updated_at DESC" )
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @message }
+      format.mobile do
+        render :action => 'show_active', :formats => 'html', :layout => 'application.mobile.erb'
+      end
     end
   end
 

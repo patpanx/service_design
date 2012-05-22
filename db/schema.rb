@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120521155716) do
+ActiveRecord::Schema.define(:version => 20120522081325) do
 
   create_table "messages", :force => true do |t|
     t.integer  "session_id"
@@ -42,8 +42,10 @@ ActiveRecord::Schema.define(:version => 20120521155716) do
     t.integer  "owner_id"
     t.integer  "timeout"
     t.integer  "forwarding_time"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.datetime "created_at",                         :null => false
+    t.datetime "updated_at",                         :null => false
+    t.string   "status",          :default => "new"
+    t.integer  "receiver_id"
   end
 
   create_table "users", :force => true do |t|

@@ -42,10 +42,20 @@ class SessionsController < ApplicationController
   # GET /sessions/new.json
   def new
     logger.debug "-- current_user.id:#{ @current_user.id }"
-    @session = Session.new(:owner_id => current_user.id)
+    
+    max_id = User.maximum("id")
+    min_id = User.minimum("id")
+    id_range = max_id - min_id + 1
+    begin
+    random_id = min_id + rand(id_range).to_i
+   # logger.debug "---- random_id: #{ random_id }"
+   #logger.debug "---- User.find(random_id).blank?: #{ User.find_by_id(random_id).blank? }"
+    end while random_id == @current_user.id || User.find_by_id(random_id).blank?
+    @randomUser = User.find_by_id(random_id)
+   # logger.debug "---- users: #{ @randomUser.id }"
+    @session = Session.new(:owner_id => current_user.id, :receiver_id => @randomUser.id)
     @session.save
     @message = Message.new(:session_id => @session.id, :owner_id => current_user.id)
-    
     @message.save
     redirect_to edit_message_path(@message)
   end
@@ -127,6 +137,31 @@ class SessionsController < ApplicationController
       format.json { head :no_content }
       format.mobile { redirect_to sessions_url }
     end
+  end
+  
+  
+  def show_active
+    #@active_sessions = Session.find(:all, :conditions =>  [ 'owner_id = :current_user or receiver_id = :current_user and status = :status_new or status = :status_received', {:current_user => @current_user.id, :status_new => "new", :status_received => 'received'}] )  
+    
+    @active_receiver_asked = Session.find(:all, :conditions =>  { :receiver_id => @current_user.id, :status => 'asked'})
+    @active_owner_answered = Session.find(:all, :conditions =>  { :owner_id => @current_user.id, :status => 'answered'})
+    @active_owner_asked = Session.find(:all, :conditions =>  { :owner_id => @current_user.id, :status => 'asked'})
+    @complete_owner_complete = Session.find(:all, :conditions =>  { :owner_id => @current_user.id, :status => 'complete'})
+    @complete_answered_sessions = Session.find(:all, :conditions =>  { :receiver_id => @current_user.id, :status => 'complete'})
+   
+    
+    logger.debug "---- @active_receiver_asked: #{ @active_receiver_asked }"
+    logger.debug "---- @active_owner_answered: #{ @active_owner_answered }"
+    
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json { render json: @session }
+      format.mobile do
+        render :action => 'show_active', :formats => 'html', :layout => 'application.mobile.erb'
+      end
+    end
+    
+    
   end
   
 end

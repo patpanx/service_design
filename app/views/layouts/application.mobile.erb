@@ -25,7 +25,7 @@
 				<% else %>
 				<%= link_to 'Profile', user_path(@current_user)%>
 				<% end %>
-				<%= link_to 'Sessions', sessions_path %>
+				<%= link_to 'Sessions', show_active_sessions_path %>
 				<%= link_to 'new Message', new_session_path %>
 				<%= link_to 'logout', access_logout_path%>
 				<%= yield :navi %>

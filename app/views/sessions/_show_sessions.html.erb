@@ -1,0 +1,42 @@
+<% unless conversations.blank? %>
+<div class="new_conversation">
+	<div class="new_message">
+		<%= conversations.size %>&nbsp;<%= title_message %>
+	</div>
+	<% conversations.each do |session|%>
+	<div class="session">
+		<div class="title">received Sessions</div>
+		<div class="session_owner">session.owner_id:&nbsp;<%= session.owner_id %></div>
+		<% @active_messages = session.message %>
+		<div class="status">session.status:<%= session.status %></div>
+		<% @active_messages.each do |message| %>
+		<div class="message">
+			<div class="header">
+				<div class="status">
+					message.status:<%= message.status %>
+				</div>
+				<div class="sender">
+					from:<%= message.owner_id %>
+				</div>
+				<div class="receiver">
+					to:<%= message.receiver_id %>
+				</div>
+			</div>
+			<div class="text">
+
+				<%= message.text %>
+			</div>
+		</div>
+
+		<% if message.status == "new" && session.owner_id != @current_user.id %>
+		<div class="actions" >
+			<%= link_to 'respond', edit_message_path(message), :class => 'respond'%>
+		</div>
+		<% end %>
+
+		<% end %>
+
+	</div>
+	<% end %>
+</div>
+<% end %>
