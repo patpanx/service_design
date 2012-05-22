@@ -23,7 +23,7 @@
 				</div>
 				
 			</div>
-			<% unless message.media.blank?%>
+			<% unless message.media_file_name.blank?%>
 			<div class="image">
 			<%= image_tag message.media.url(:small) %>
 			</div>
