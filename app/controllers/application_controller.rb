@@ -49,7 +49,7 @@ class ApplicationController < ActionController::Base
     if session[ :is_mobile]
       return ( session[ :is_mobile ].to_i == 1 )
     else
-      return ( request.user_agent.downcase =~ /iphone|android|mobile/ )
+      return ( request.user_agent.downcase =~ /iPhone|android|mobile/)
     end
   end
   helper_method :is_mobile?

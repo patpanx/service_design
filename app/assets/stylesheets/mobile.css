@@ -1,43 +1,153 @@
 body{
   background-color:#444;
+
 }
 
 .w980 {
   font-family: verdana, arial, helvetica, sans-serif;
   font-size: 13px;
   width:320px;
-  background-color: #EEEEEE;
+  
   padding: 0em;
-  position:relative;
+  position: relative;
   margin: 0 auto;
   
   
 }
 
 #navi{
+  position: fixed;
+  top:0px;
+  left:0px;
+  width: 310px;
+  height: 20px;
   background-color: #AAAAAA;
   color: #000;
-  text-align:right;
-  padding: 0.25em 1em;
+  text-align:center;
+  padding: 5px 5px;
+  z-index: 1000;
   
 }
 a, a:visited, a:hover {
   color: #222;
   text-decoration:none;
-  padding: 0em 1em;
+  padding: 0em 0.5em;
 }
 a:active {
   color: #000;
 }
 
-a#login_toggle{
-
-	padding: 0em;
-	text-decoration: underline;
-	
+#content{
+  padding: 5px;
+  position: relative;
+  top: 20px;
+  background-color: #EEEEEE;
+  
 }
 
-#content{
-  padding: 1em;
+td {
+  padding: 0em 1em;
   
+}
+
+tr{
+    background-color: #DDD;
+}
+
+tr:nth-child(odd) {
+  background-color: #CCC;
+}
+
+.session {
+  position:relative;
+  background-color:#CCC;
+  padding: 0.5em;
+  margin-bottom: 5px;
+  
+}
+
+.session:nth-child(odd){
+  
+  background-color:#BBB;
+}
+
+.respond {
+  position: absolute;
+  right: 00px;
+  bottom: 0px;
+  width: 100px;
+  height: 20px;
+  background-color: #AAA;
+  text-align: center;
+}
+.respond:hover{
+    background-color: #DDD;
+  }
+.new_conversation{
+  padding: 2px;
+  
+  
+}
+.new_message{
+  
+  background-color: #444;
+  color: #FFF;
+  padding: 0.5em;
+}  
+
+  .message {
+    padding: 0.5em;
+    margin: 5px 0px;
+    border-radius: 5px;
+    border: 1px solid;
+    border-color: #000;
+    clear: right;
+    
+  }
+  .message .status {
+    font-size: 10px;
+    position: relative;
+    //width: 150px;
+    float:right;
+  }
+  .message .sender, .message .receiver {
+    font-size: 10px;
+    width: 40px;
+    float:left;
+    padding: 0em 0.5em;
+  }
+  .message .header {
+    position: relative;
+    height: 10px;
+    background-color: #777;
+    padding: 0.5em;
+    margin: 0.5em 0em;
+  }
+  .message .text {
+    clear:left;
+    background-color: #FFF;
+    padding: 1em;
+    border-radius: 5px;
+    
+  }
+  .actions {
+    width:100%;
+    position:relative;
+    right: 0px;
+    bottom: 0px;
+    height: 20px;
+    
+    
+  }
+.title, .status, .session_owner {
+  
+  float:right;
+  font-size: 10px;
+  color: #444;
+  padding: 0.2em 0.5em;
+  display: none;
+  
+}
+.image img {
+	width: 280px
 }

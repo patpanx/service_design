@@ -7,6 +7,9 @@ class MessagesController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @messages }
+      format.mobile do
+        render :action => 'index', :formats => 'html', :layout => 'application.mobile.erb'
+      end
     end
   end
 
@@ -18,6 +21,9 @@ class MessagesController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @message }
+      format.mobile do
+        render :action => 'show', :formats => 'html', :layout => 'application.mobile.erb'
+      end
     end
   end
 
@@ -29,13 +35,22 @@ class MessagesController < ApplicationController
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @message }
+      format.mobile do
+        render :action => 'new', :formats => 'html', :layout => 'application.mobile.erb'
+      end
     end
   end
 
   # GET /messages/1/edit
   def edit
     @message = Message.find(params[:id])
-
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render json: @message }
+      format.mobile do
+        render :action => 'edit', :formats => 'html', :layout => 'application.mobile.erb'
+      end
+    end
   end
 
   # POST /messages
@@ -47,9 +62,13 @@ class MessagesController < ApplicationController
       if @message.save
         format.html { redirect_to @message, notice: 'Message was successfully created.' }
         format.json { render json: @message, status: :created, location: @message }
+        format.mobile { redirect_to @message, notice: 'Message was successfully created.' }
       else
         format.html { render action: "new" }
         format.json { render json: @message.errors, status: :unprocessable_entity }
+        format.mobile do
+          render :action => 'new', :formats => 'html', :layout => 'application.mobile.erb'
+        end
       end
     end
   end
@@ -102,6 +121,7 @@ class MessagesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to messages_url }
       format.json { head :no_content }
+      format.mobile { redirect_to messages_url }
     end
   end
 

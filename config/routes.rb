@@ -18,7 +18,7 @@ ServiceDesign::Application.routes.draw do
 
   resources :users
   
-  root :to => 'sessions#index'
+  root :to => 'sessions#show_active'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

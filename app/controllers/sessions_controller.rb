@@ -57,6 +57,7 @@ class SessionsController < ApplicationController
     @session.save
     @message = Message.new(:session_id => @session.id, :owner_id => current_user.id)
     @message.save
+    
     redirect_to edit_message_path(@message)
   end
 
