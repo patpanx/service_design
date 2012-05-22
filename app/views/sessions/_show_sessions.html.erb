@@ -23,9 +23,11 @@
 				</div>
 				
 			</div>
+			<% unless message.media.blank?%>
 			<div class="image">
 			<%= image_tag message.media.url(:small) %>
 			</div>
+			<% end %>
 			<div class="text">
 
 				<%= message.text %>
