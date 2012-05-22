@@ -22,11 +22,11 @@ ActiveRecord::Schema.define(:version => 20120522133757) do
     t.integer  "location_id"
     t.datetime "created_at",                            :null => false
     t.datetime "updated_at",                            :null => false
+    t.string   "status",             :default => "new"
     t.string   "media_file_name"
     t.string   "media_content_type"
     t.integer  "media_file_size"
     t.datetime "media_updated_at"
-    t.string   "status",             :default => "new"
   end
 
   create_table "positions", :force => true do |t|
