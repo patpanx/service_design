@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120522081325) do
+ActiveRecord::Schema.define(:version => 20120522133757) do
 
   create_table "messages", :force => true do |t|
     t.integer  "session_id"
@@ -19,11 +19,14 @@ ActiveRecord::Schema.define(:version => 20120522081325) do
     t.datetime "timestamp"
     t.integer  "receiver_id"
     t.text     "text"
-    t.string   "media"
     t.integer  "location_id"
-    t.datetime "created_at",                     :null => false
-    t.datetime "updated_at",                     :null => false
-    t.string   "status",      :default => "new"
+    t.datetime "created_at",                            :null => false
+    t.datetime "updated_at",                            :null => false
+    t.string   "media_file_name"
+    t.string   "media_content_type"
+    t.integer  "media_file_size"
+    t.datetime "media_updated_at"
+    t.string   "status",             :default => "new"
   end
 
   create_table "positions", :force => true do |t|
