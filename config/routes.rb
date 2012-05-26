@@ -8,17 +8,22 @@ ServiceDesign::Application.routes.draw do
   get "access/logout"
 
   resources :sessions do
+    get :active_sessions, :on => :collection
+    get :active_receiver_asked, :on => :collection
+    get :active_owner_answered, :on => :collection
+    get :active_owner_asked, :on => :collection
     get :show_active, :on => :collection
   end
 
   resources :messages do
     get :send_message, :on => :member
     get :show_active, :on => :collection
+    
   end
 
   resources :users
   
-  root :to => 'sessions#show_active'
+  root :to => 'sessions#active_sessions'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

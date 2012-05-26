@@ -8,9 +8,12 @@
 		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
 
 		<%= stylesheet_link_tag "/jqtouch/themes/css/apple.css" %>
+		<%= stylesheet_link_tag "/jqtouch/extensions/jqt.photo.css" %>
 		<%= stylesheet_link_tag    "mobile", :media => "all" %>
 		<%= javascript_include_tag "/jqtouch/src/lib/zepto.js" %>
 		<%= javascript_include_tag "/jqtouch/src/jqtouch.min.js" %>
+		<%= javascript_include_tag "/jqtouch/extensions/jqt.photo.js" %>
+		<%= javascript_include_tag "/jqtouch/extensions/jqt.scroll.js" %>
 		<%= javascript_include_tag "application" %>
 		<%= csrf_meta_tags %>
 		<script>
@@ -24,7 +27,7 @@
 	<body>
 		<div class="w980">
 
-			<div id="content">
+			<div id="content jqt">
 				<%= yield %>
 			</div>
 			<div id="navi">
@@ -34,7 +37,7 @@
 				<% else %>
 				<%= link_to 'Profile', user_path(@current_user)%>
 				<% end %>
-				<%= link_to 'Sessions', show_active_sessions_path %>
+				<%= link_to 'Sessions', active_sessions_sessions_path %>
 				<%= link_to 'new Message', new_session_path %>
 				<%= link_to 'logout', access_logout_path%>
 				<%= yield :navi %>

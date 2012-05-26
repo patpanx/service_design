@@ -31,18 +31,25 @@ class AccessController < ApplicationController
         redirect_to @user
 
       else
-        logger.debug "-- params['/access/login'][ :email]:#{params[ '/access/login' ][ :email ]}"
+        logger.debug "-- params['/access/login'][ :email].blank?:#{params[ '/access/login' ][ :email ].blank?}"
+        logger.debug "-- session:#{session}"
         # if email and password == blank, create a new empty user - anonym user
         if params[ '/access/login' ][ :email ].blank? && params[ '/access/login' ][ :password_digest ].blank?
           #check if its first user - gets admin rights
 
           if User.all.blank?
             @user = User.new(:admin => 1)
+            logger.debug "-- @user.id:#{@user.admin}"
+            logger.debug "-- @user.id:#{@user.id}"
           else
             @user = User.new()
+            logger.debug "---- created a new User"
+            logger.debug "-- @user.id:#{@user.id}"
           end
-          @user.save
+          logger.debug @user.save
+          logger.debug "-- @user.id:#{@user.id}"
           session[ :logged_user_id ] = @user.id
+          logger.debug "-- users_path(@user)#{users_path(@user)}"
           redirect_to @user
 
         else
