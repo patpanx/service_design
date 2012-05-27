@@ -5,7 +5,7 @@
 
 <% @active_messages = session.message %>
 <% @active_messages.each_with_index do |message, mIndex| %>
-<div class="card" id="flip" style="left:<%= 340*sIndex%>px; top:<%= 500*mIndex%>px;">
+<div class="card <% if sIndex == conversations.size-1 %>active<% end %>" id="flip" style="z-index:<%= 100+sIndex%>; <% if mIndex >=1%>display:none;<%end%>">
 <div class="card_deck">
 <% unless message.media_file_name.blank? %>
 <div class="card_image">
