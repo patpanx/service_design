@@ -1,27 +1,28 @@
 <% unless conversations.blank? %>
 
-	
 <% conversations.each_with_index do |session, sIndex|%>
+<div id="<%= sIndex %>" class="card_set<% if sIndex == 0%> current<% end %>"  data-id="<%= sIndex %>" style="z-index:<%= 100-sIndex%>; left:<%=5*sIndex%>px; top:<%=5*-sIndex%>px;">
+	<% @active_messages = session.message %>
 
-<% @active_messages = session.message %>
-<% @active_messages.each_with_index do |message, mIndex| %>
-<div class="card <% if sIndex == conversations.size-1 %>active<% end %>" id="flip" style="z-index:<%= 100+sIndex%>; <% if mIndex >=1%>display:none;<%end%>">
-<div class="card_deck">
-<% unless message.media_file_name.blank? %>
-<div class="card_image">
-<%= image_tag message.media.url(:small) %>
-</div>
-<% end %>
-<div class="card_text">
-<p>
-<%= message.text %>
-</p>
-</div>
-</div>
-</div>
+	<% @active_messages.each_with_index do |message, mIndex| %>
 
-<% end %>
+	<div id="<%= mIndex %>" class="card <% if mIndex.even? %>front side<%else%>back side<%end%>">
+		<div class="card_deck">
+			<% unless message.media_file_name.blank? %>
+			<div class="card_image">
+				<%= image_tag message.media.url(:small) %>
+			</div>
+			<% end %>
+			<div class="card_text">
+				<p>
+					<%= message.text %>
+				</p>
+			</div>
+		</div>
+	</div>
 
+	<% end %>
+</div>
 <% end %>
 
 <% end %>

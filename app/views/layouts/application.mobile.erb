@@ -7,27 +7,17 @@
 		<meta name="apple-mobile-web-app-capable" content="yes" />
 		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
 
-		<%= stylesheet_link_tag "/jqtouch/themes/css/apple.css" %>
-		<%= stylesheet_link_tag "/jqtouch/extensions/jqt.photo.css" %>
+
 		<%= stylesheet_link_tag    "mobile", :media => "all" %>
-		<%= javascript_include_tag "/jqtouch/src/lib/zepto.js" %>
-		<%= javascript_include_tag "/jqtouch/src/jqtouch.min.js" %>
-		<%= javascript_include_tag "/jqtouch/extensions/jqt.photo.js" %>
-		<%= javascript_include_tag "/jqtouch/extensions/jqt.scroll.js" %>
+
 		<%= javascript_include_tag "application" %>
 		<%= csrf_meta_tags %>
-		<script>
-			$(document).ready() {
-				getPosition();
-				window.setInterval("getPosition()", 20000);
-			}
-		</script>
 
 	</head>
 	<body>
 		<div class="w980">
 
-			<div id="content jqt">
+			<div id="content">
 				<%= yield %>
 			</div>
 			<div id="navi">
