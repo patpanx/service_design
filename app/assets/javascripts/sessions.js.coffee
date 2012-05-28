@@ -24,18 +24,21 @@ $(document).ready ->
   
   
   #flip function
-  $('.card_set').click ->
-    card.toggleClass 'rotated'
+  card.click (e) ->
+    t = $(e.target)
+    console.log t
+    unless t.is 'textarea'
+      card.toggleClass 'rotated'
      
   #when finger touches
   $('.card_set').on "touchstart", (e) ->
-    card = $('.card_set.current')
+    card = $('.card_set.current') #gets the top card in the "visible" stack - not equal to the top card-<Div>
     card.x = card.css "left"
     card.y = card.css "top"
     
-    prevCard = card.prev()
-    if prevCard.length == 0
-      prevCard = cardSets.last()
+    prevCard = card.prev() #gets also the last card in the stack
+    if prevCard.length == 0 #when the first card of the <div>'s is the top card, then there is no previous card
+      prevCard = cardSets.last() # so take the last card
     prevCard.x = prevCard.css "left"
     prevCard.y = prevCard.css "top"
     # bugfix because jquery has problems with eventhandler
@@ -101,8 +104,8 @@ $(document).ready ->
       card.css("top",touch.pageY - valY - 25)
 
      else if gesture is "leftright" or gesture is "right" or gesture is "left"
-        if offsetX < 0
-          card.css("left", +offsetX)
+        if offsetX < 0 #when the movement is to the right
+          card.css("left", +offsetX) 
         else 
           
           prevCard.css("left", +offsetX)
@@ -181,7 +184,9 @@ $(document).ready ->
         else 
           card = $('card_set.current').prev()
           card.css("left", +offsetX)
-        
+          
+          
+  #mouse stuff
   $('.card_set').on "mouseup", (e) ->
     mouseIsDown = 0
     gesture = false
@@ -195,10 +200,11 @@ $(document).ready ->
   $('.card_set').on "touchend", (e) ->
     gesture = false
     
+    # get all cards and order it after the z-index
     $('.card_set').each ->
-      tCard = $(this)
-      id = tCard.css "z-index"
-      tCard.animate {left: (100-id)*5, top:-(100-id)*5}, 200
+      tCard = $(this) #tempcard
+      id = tCard.css "z-index" #gets the z-index => "visible" order of the cards
+      tCard.animate {left: (100-id)*5, top:-(100-id)*5}, 200 #card animation + stack animation
       #tCard.css "left", (100-id)*5
       #tCard.css "top", -(100-id)*5
    # card.stop(true,true).animate {left: card.x,top:card.y}, 500
@@ -224,18 +230,21 @@ $(document).ready ->
     else if gesture == "down"
     
     else
-    
+  
+  
+  #next_card function
   next_card = () ->
-    $('.card_set').css "z-index", "+=1"
-    actual = $('.card_set.current')
-    actual.removeClass "current"
-    actual.css "z-index", 101-cardSets.length 
-    cardSet = actual.next()
+    $('.card_set').css "z-index", "+=1"           #move all cards one step upwards
+    actual = $('.card_set.current')               # save the current "top-card"
+    actual.removeClass "current"                 
+    actual.css "z-index", 101-cardSets.length     # move the top card to the bottom
+    cardSet = actual.next()                       #make the next card the top card
     #console.log cardSet.length
-    if cardSet.length == 0
+    if cardSet.length == 0                        #if there is no next card (because there is no next <div>-element)
       cardSet = cardSets.first()  
-    cardSet.addClass "current"
+    cardSet.addClass "current"                    
     
+  #previous_card function - almost the same as nex_card, exept it takes the prevCard
   previous_card = () ->
     $('.card_set').css "z-index", "-=1"
     actual = $('.card_set.current')

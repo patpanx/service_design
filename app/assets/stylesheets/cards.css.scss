@@ -14,6 +14,8 @@
   background: -ms-linear-gradient(-45deg,  #45484d 0%,#000000 100%); /* IE10+ */
   background: linear-gradient(-45deg,  #45484d 0%,#000000 100%); /* W3C */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#45484d', endColorstr='#000000',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+  //-webkit-perspective: 500;
+  //-moz-perspective: 500;
 }
 .card_table_center {
   position:relative;
@@ -29,6 +31,8 @@
   width: 260px;
   height: 380px;
   margin: 0px auto;
+  transform-style: preserve-3d;
+  transition: -webkit-transform 1.5s;
   -webkit-transform-style: preserve-3d;
   -webkit-transition: -webkit-transform 1.5s;
   -moz-transform-style: preserve-3d;
@@ -36,13 +40,22 @@
   
 }
 .rotated{
+  transform: rotateY(180deg);
     -webkit-transform: rotateY(180deg);
     -moz-transform: rotateY(180deg);
 }
 
 .back{
+    transform: rotateY(180deg);
     -webkit-transform: rotateY(180deg);
     -moz-transform: rotateY(180deg);
+}
+
+.side
+{
+  backface-visibility:hidden;
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
 }
 
 .card {
@@ -65,6 +78,19 @@ box-shadow: 2px 2px 10px rgba(0,0,0,0.8);
 -webkit-backface-visibility: hidden;
 }
 
+textarea {
+-webkit-appearance: textarea;
+background: rgba(255,255,255,0.5);
+border: 0px solid;
+-webkit-rtl-ordering: logical;
+-webkit-user-select: text;
+-webkit-box-orient: vertical;
+resize: none;
+cursor: auto;
+padding-top: 0px;
+white-space: pre-wrap;
+word-wrap: break-word;
+}
 
 .card_deck{
   
@@ -86,6 +112,7 @@ box-shadow: 2px 2px 10px rgba(0,0,0,0.8);
   width: 220px;
   height: 150px;
   float:left;
+  display: none // <- BILD AUSGESCHALTET!!!!
   
 }
 

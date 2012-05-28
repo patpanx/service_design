@@ -1,23 +1,33 @@
 <% unless conversations.blank? %>
 
 <% conversations.each_with_index do |session, sIndex|%>
-<div id="<%= sIndex %>" class="card_set<% if sIndex == 0%> current<% end %>"  data-id="<%= sIndex %>" style="z-index:<%= 100-sIndex%>; left:<%=5*sIndex%>px; top:<%=5*-sIndex%>px;">
+<div id="<%= sIndex %>" class="card_set<% if sIndex == 0%> current<% end %>"  data-id="<%= sIndex %>" style="z-index:<%= 100-sIndex%>; left:<%= 5*sIndex%>px; top:<%= 5*-sIndex%>px;">
 	<% @active_messages = session.message %>
 
 	<% @active_messages.each_with_index do |message, mIndex| %>
 
 	<div id="<%= mIndex %>" class="card <% if mIndex.even? %>front side<%else%>back side<%end%>">
 		<div class="card_deck">
-			<% unless message.media_file_name.blank? %>
-			<div class="card_image">
-				<%= image_tag message.media.url(:small) %>
-			</div>
+			<% logger.debug "-------- card_type " + card_type %>
+			<% if card_type == "active_receiver_asked" && mIndex == 0 %>
+				<% unless message.media_file_name.blank? %>
+				<div class="card_image">
+					<%= image_tag message.media.url(:small) %>
+				</div>
+				<% end %>
+	
+				<div class="card_text">
+					<p>
+						<%= message.text %>
+					</p>
+				</div>
+			<% else %>
+				<%= form_for(message) do |f| %>
+					<div class="field card_text">
+						<%= f.text_area :text, :style=>'width: 100%;' %>
+					</div>
+				<% end %>
 			<% end %>
-			<div class="card_text">
-				<p>
-					<%= message.text %>
-				</p>
-			</div>
 		</div>
 	</div>
 
