@@ -45,8 +45,8 @@ $(document).ready ->
     touch = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0]
     
     #save current position of the card
-    valX = touch.pageX - $(this).offset().left
-    valY = touch.pageY - $(this).offset().top
+    valX = touch.pageX - card.offset().left
+    valY = touch.pageY - card.offset().top
     
     #save current touchEventPosition
     tempTouchX = touch.pageX
