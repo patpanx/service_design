@@ -44,9 +44,8 @@ $(document).ready ->
     # bugfix because jquery has problems with eventhandler
     touch = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0]
     
-    #save current position of the card
-    valX = touch.pageX - card.offset().left
-    valY = touch.pageY - card.offset().top
+    
+   
     
     #save current touchEventPosition
     tempTouchX = touch.pageX
@@ -101,7 +100,7 @@ $(document).ready ->
     
     if gesture is "topdown" or gesture is "up" or gesture is "down"
       
-      card.css("top",touch.pageY - valY - 25)
+      card.css("top", +offsetY - 25)
 
      else if gesture is "leftright" or gesture is "right" or gesture is "left"
         if offsetX < 0 #when the movement is to the right
