@@ -12,5 +12,5 @@ window.getPosition = ->
   
 
 window.savePosition = (position) ->
-  $.post('/positions/save', position)
+  #$.post('/positions/save', position)
   console.log(position)

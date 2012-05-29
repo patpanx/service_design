@@ -31,27 +31,25 @@ $(document).ready ->
       card.toggleClass 'rotated'
      
   #when finger touches
-  $('.card_set').on "touchstart", (e) ->
-    card = $('.card_set.current') #gets the top card in the "visible" stack - not equal to the top card-<Div>
-    card.x = card.css "left"
-    card.y = card.css "top"
-    
-    prevCard = card.prev() #gets also the last card in the stack
-    if prevCard.length == 0 #when the first card of the <div>'s is the top card, then there is no previous card
-      prevCard = cardSets.last() # so take the last card
-    prevCard.x = prevCard.css "left"
-    prevCard.y = prevCard.css "top"
+  $('.card_table').on "touchstart", (e) ->
     # bugfix because jquery has problems with eventhandler
     touch = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0]
-    
-    
-   
-    
     #save current touchEventPosition
     tempTouchX = touch.pageX
     tempTouchY = touch.pageY
   
+  
+  $('.card_set').on "touchstart", (e) ->
+    card = $('.card_set.current') #gets the top card in the "visible" stack - not equal to the top card-<Div>
+    prevCard = card.prev() #gets also the last card in the stack
+    if prevCard.length == 0 #when the first card of the <div>'s is the top card, then there is no previous card
+      prevCard = cardSets.last() # so take the last card
+    
+  
   # when the finger is moved
+  $('.card_table').on "touchmove", (e) ->
+    e.preventDefault()
+    
   $('.card_set').on "touchmove", (e) ->
     #prevent default actions like scrolling
     e.preventDefault()
@@ -61,8 +59,6 @@ $(document).ready ->
     #the distance the finger has moved
     offsetX = touch.pageX - tempTouchX
     offsetY = touch.pageY - tempTouchY
-    
-    #console.log offsetX + "/" + offsetY
     
     #detects the direction
     if offsetX <= -maxOffset && gesture is "leftright"
@@ -74,20 +70,13 @@ $(document).ready ->
       gesture = "right"
       swipe(touch, gesture)
       
-    
     else if offsetY <= -maxOffset && gesture is "topdown"
       gesture = "up"
       swipe(touch, gesture)
       
-     
     else if offsetY >= maxOffset && gesture is "topdown"
       gesture = "down"
       swipe(touch, gesture)
-
-    #get the card_table width 
-    tableWidth = $(".card_table_center").parent().width()
-    
-
 
     #allows the card only to move left/right or top/down
     if offsetY <= -minOffset && !gesture or offsetY >= minOffset && !gesture
@@ -96,8 +85,7 @@ $(document).ready ->
     else if offsetX <= -minOffset && !gesture or offsetX >= minOffset && !gesture
       gesture = "leftright"
     
-    
-    
+     
     if gesture is "topdown" or gesture is "up" or gesture is "down"
       
       card.css("top", +offsetY - 25)
@@ -108,12 +96,37 @@ $(document).ready ->
         else 
           
           prevCard.css("left", +offsetX)
+  
+  $('.new_card'). on "touchmove", (e) ->
+    #prevent default actions like scrolling
+    newCard = $(this)
+    e.preventDefault()
+    # aigain stupid eventhandler bugfix
+    touch = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0]
+    
+    #the distance the finger has moved
+    offsetY = touch.pageY - tempTouchY
+    
+    #detects the direction
+    if offsetY <= -maxOffset && gesture  == "topdown"
+      gesture = "top"
+      swipe(touch, "new_card")
+
+    
+    #allows the card only to move left/right or top/down
+    if offsetY <= -minOffset && !gesture
+      gesture = "topdown"
       
+ 
+    if gesture is "topdown" or "top"
+      newCard.css("top", +offsetY - 25)  
+      
+
+ 
   #mouse stuff
   $('.card_set').on "mousedown", (e) ->
     card = $('.card_set.current')
-    card.x = card.css "left"
-    card.y = card.css "top"
+
     # bugfix because jquery has problems with eventhandler
     touch = event;
     mouseIsDown = 1
@@ -189,35 +202,19 @@ $(document).ready ->
   $('.card_set').on "mouseup", (e) ->
     mouseIsDown = 0
     gesture = false
-    $('.card_set').each ->
-      tCard = $(this)
-      id = tCard.css "z-index"
-      tCard.animate {left: (100-id)*5, top:-(100-id)*5}, 200
+    update_order()
       
 
   #on touchend reset cardPosition
-  $('.card_set').on "touchend", (e) ->
+  $('.card_set').on "touchend touchcancel", (e) ->
     gesture = false
-    
-    # get all cards and order it after the z-index
-    $('.card_set').each ->
-      tCard = $(this) #tempcard
-      id = tCard.css "z-index" #gets the z-index => "visible" order of the cards
-      tCard.animate {left: (100-id)*5, top:-(100-id)*5}, 200 #card animation + stack animation
-      #tCard.css "left", (100-id)*5
-      #tCard.css "top", -(100-id)*5
-   # card.stop(true,true).animate {left: card.x,top:card.y}, 500
-   # prevCard.stop(true,true).animate {left: prevCard.x,top:prevCard.y}, 500
-    
-    
-  $('.card_set').on "touchcancel", (e) ->
+    update_order()
+  
+  $('.new_card').on "touchend touchcancel", (e) ->
     gesture = false
-    $('.card_set').each ->
-      tCard = $(this)
-      id = tCard.css "z-index"
-      tCard.animate {left: (100-id)*5, top:-(100-id)*5}, 200
+    $(this).animate {left:25, top:-30}, 200 
     
-  swipe = () ->
+  swipe = (touch,gesture) ->
     console.log gesture
     
     if gesture == "left"
@@ -225,9 +222,12 @@ $(document).ready ->
     else if gesture == "right"
       previous_card()
     else if gesture == "up"
-    
+      send_card()
     else if gesture == "down"
     
+    else if gesture == "new_card"
+      new_card()
+      
     else
   
   
@@ -251,3 +251,35 @@ $(document).ready ->
     prevCard.css "z-index", 100  
     prevCard.addClass "current"
 
+  send_card = () ->
+    console.log "send_card"
+    console.log "send_card"
+    $('.current .submittable').parents('form:first').submit();
+    card.animate {top: -500, opacity: 0}, 500, ->
+      actual.remove()
+    
+    $('.card_set').css "z-index", "+=1"           #move all cards one step upwards
+    actual = $('.card_set.current')               # save the current "top-card"
+    actual.removeClass "current"            
+        # move the top card to the bottom
+    cardSet = actual.next()                       #make the next card the top card
+                       
+    #console.log cardSet.length
+    if cardSet.length == 0                        #if there is no next card (because there is no next <div>-element)
+      cardSet = cardSets.first()  
+    cardSet.addClass "current" 
+    update_order()
+    
+  update_order = () ->
+    $('.card_set').each ->
+      tCard = $(this) #tempcard
+      id = tCard.css "z-index" #gets the z-index => "visible" order of the cards
+      tCard.animate {left: (100-id)*5, top:-(100-id)*5}, 200 #card animation + stack animation
+      
+  new_card = () ->
+    #$('.card_table').animate {opacity:0.3}, 200
+    $.ajax(
+      type: "get"
+      url: "/sessions/new"
+    ).done (html) ->
+      $('.card_table_center').append html

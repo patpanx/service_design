@@ -1,29 +1,13 @@
-<%= form_for(@message) do |f| %>
-<% if @message.errors.any? %>
-<div id="error_explanation">
-	<h2><%= pluralize(@message.errors.count, "error") %> prohibited this message from being saved:</h2>
+<div id="" class="card_set current new"  data-id="" style="z-index:102; left:0px; top:0px;">
+	<div id="" class="card">
+		<div class="card_deck">
+			<%= form_for(@message, :remote => true) do |f| %>
+			<div class="field card_text">
+				<%= f.text_area :text, :class => 'submittable', :style=>'width: 100%;' %>
+			</div>
+			<% end %>
 
-	<ul>
-		<% @message.errors.full_messages.each do |msg| %>
-		<li>
-			<%= msg %>
-		</li>
-		<% end %>
-	</ul>
-</div>
-<% end %>
+		</div>
+	</div>
 
-<div class="field">
-	<%= f.label :text %>
-	<br />
-	<%= f.text_area :text, :style=>'width: 310px;' %>
 </div>
-<div class="field">
-	<%= f.label :media %>
-	<br />
-	<%= f.file_field :media %>
-</div>
-<div class="actions">
-	<%= f.submit "send"%>
-</div>
-<% end %>

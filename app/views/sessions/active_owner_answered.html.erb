@@ -1,7 +1,13 @@
 <div class= "card_table">
 	<div class= "card_table_center">
 
-		<%= render :partial => 'show_sessions', :locals => { :conversations => @active_owner_answered, :title_message => "new Answers"  } %>
+		<%= render :partial => 'show_sessions', :locals => { :conversations => @active_owner_answered, :title_message => "new Answers", :card_type => "active_owner_answered"  } %>
+
+	</div>
+	<div class="card_holder">
+
+		<%= render :partial => 'new_card', :locals => { :conversations => @active_owner_answered, :title_message => "new Answers"  } %>
+		<div class="card_holder_deck"></div>
 
 	</div>
 </div>

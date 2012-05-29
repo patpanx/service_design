@@ -1,33 +1,52 @@
 <div class= "card_table">
 	<div class= "card_table_center">
-	<%= link_to(active_receiver_asked_sessions_path) do%>
-	<div class="card active_receiver_asked" style="left: 0px; z-index:102; -webkit-transform:scale(0.8);scale(0.8);">
-		<div class="card_deck">
-			<div class="card_title"></div>
-			<div class="card_image" style="display: none;"></div>
-			<div class="card_text"><p style="font-size: 85px;">?</p></div>
+		<%= link_to(active_receiver_asked_sessions_path) do%>
+		<div class="card active_receiver_asked" style="left: 0px; z-index:102; -webkit-transform:scale(0.8);scale(0.8);">
+			<div class="card_deck">
+				<div class="card_title"></div>
+				<div class="card_image" style="display: none;"></div>
+				<div class="card_text">
+					<p style="font-size: 85px;">
+						?
+					</p>
+				</div>
+			</div>
 		</div>
-	</div>
-	<% end %>
-	
-	<%= link_to(active_owner_asked_sessions_path) do%>
-	<div class="card active_owner_asked" style="left: 150px;top: 20px; z-index:101; -webkit-transform:rotate(20deg) scale(0.6); -moz-transform:rotate(20deg) scale(0.6);">
-		<div class="card_deck">
-			<div class="card_title"></div>
-			<div class="card_image" style="display: none;"></div>
-			<div class="card_text"><p style="font-size: 85px;">p</p></div>
+		<% end %>
+
+		<%= link_to(active_owner_asked_sessions_path) do%>
+		<div class="card active_owner_asked" style="left: 150px;top: 20px; z-index:101; -webkit-transform:rotate(20deg) scale(0.6); -moz-transform:rotate(20deg) scale(0.6);">
+			<div class="card_deck">
+				<div class="card_title"></div>
+				<div class="card_image" style="display: none;"></div>
+				<div class="card_text">
+					<p style="font-size: 85px;">
+						p
+					</p>
+				</div>
+			</div>
 		</div>
-	</div>
-	<% end %>
-	
-	<%= link_to(active_owner_answered_sessions_path) do%>
-	<div class="card active_owner_answered"style="left: -150px;top: 20px; z-index:101;-webkit-transform:rotate(-20deg) scale(0.6); -moz-transform:rotate(-20deg) scale(0.6);">
-		<div class="card_deck">
-			<div class="card_title"></div>
-			<div class="card_image" style="display: none;"></div>
-			<div class="card_text"><p style="font-size: 85px;">!</p></div>
+		<% end %>
+
+		<%= link_to(active_owner_answered_sessions_path) do%>
+		<div class="card active_owner_answered"style="left: -150px;top: 20px; z-index:101;-webkit-transform:rotate(-20deg) scale(0.6); -moz-transform:rotate(-20deg) scale(0.6);">
+			<div class="card_deck">
+				<div class="card_title"></div>
+				<div class="card_image" style="display: none;"></div>
+				<div class="card_text">
+					<p style="font-size: 85px;">
+						!
+					</p>
+				</div>
+			</div>
 		</div>
+		<% end %>
 	</div>
+
+	<div class="card_holder">
+
+		<%= render :partial => 'new_card', :locals => { :conversations => @active_owner_answered, :title_message => "new Answers"  } %>
+		<div class="card_holder_deck"></div>
+
 	</div>
-	<% end %>
 </div>

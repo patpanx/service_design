@@ -95,18 +95,14 @@ class MessagesController < ApplicationController
       @re_message = Message.new( :owner_id => @receiver_id, :session_id => @message.session_id)
     @re_message.save
     end
-
+    
+   
+    
     respond_to do |format|
       if @message.update_attributes(params[:message])
-        format.html { redirect_to show_active_sessions_path, notice: 'Session was successfully updated.' }
-        format.json { head :no_content }
-        format.mobile { redirect_to show_active_sessions_path, notice: 'Session was successfully updated.' }
+        render :file => :nothing
       else
-        format.html { render action: "edit" }
-        format.json { render json: @message.errors, status: :unprocessable_entity }
-        format.mobile do
-          render :action => 'edit', :formats => 'html', :layout => 'application.mobile.erb'
-        end
+        render :file => :nothing
       end
     end
 
