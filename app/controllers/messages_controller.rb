@@ -45,10 +45,12 @@ class MessagesController < ApplicationController
   def edit
     @message = Message.find(params[:id])
     respond_to do |format|
-      format.html # index.html.erb
+      format.html do # index.html.erb
+        render :action => 'edit', :formats => 'html', :layout => false
+      end
       format.json { render json: @message }
       format.mobile do
-        render :action => 'edit', :formats => 'html', :layout => 'application.mobile.erb'
+        render :action => 'edit', :formats => 'html', :layout => false
       end
     end
   end
@@ -100,9 +102,9 @@ class MessagesController < ApplicationController
     
     respond_to do |format|
       if @message.update_attributes(params[:message])
-        render :file => :nothing
+        #render :file => :nothing
       else
-        render :file => :nothing
+        #render :file => :nothing
       end
     end
 

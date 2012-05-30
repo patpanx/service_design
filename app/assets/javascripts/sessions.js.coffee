@@ -26,7 +26,7 @@ $(document).ready ->
   #flip function
   card.click (e) ->
     t = $(e.target)
-    console.log t
+    #console.log t
     unless t.is 'textarea'
       card.toggleClass 'rotated'
      
@@ -124,20 +124,21 @@ $(document).ready ->
 
  
   #mouse stuff
-  $('.card_set').on "mousedown", (e) ->
-    card = $('.card_set.current')
-
+  $('.card_table').on "mousedown", (e) ->
     # bugfix because jquery has problems with eventhandler
     touch = event;
     mouseIsDown = 1
-    #save current position of the card
-    valX = touch.pageX - $(this).offset().left
-    valY = touch.pageY - $(this).offset().top
+
     
     #save current touchEventPosition
     tempTouchX = touch.pageX
     tempTouchY = touch.pageY
   
+  $('.card_set').on "mousedown", (e) ->
+    card = $('.card_set.current')
+
+    # bugfix because jquery has problems with eventhandler
+    
   # when the finger is moved
   $('.card_set').on "mousemove", (e) ->
     #prevent default actions like scrolling
@@ -171,11 +172,7 @@ $(document).ready ->
       else if offsetY >= maxOffset && gesture is "topdown"
         gesture = "down"
         swipe(touch, gesture)
-  
-      #get the card_table width 
-      tableWidth = $(".card_table_center").parent().width()
-      
-  
+
   
       #allows the card only to move left/right or top/down
       if offsetY <= -minOffset && !gesture or offsetY >= minOffset && !gesture
@@ -183,9 +180,7 @@ $(document).ready ->
         
       else if offsetX <= -minOffset && !gesture or offsetX >= minOffset && !gesture
         gesture = "leftright"
-      
-      
-      
+
       if gesture is "topdown" or gesture is "up" or gesture is "down"
         
         card.css("top",touch.pageY - valY - 25)
@@ -197,14 +192,44 @@ $(document).ready ->
           card = $('card_set.current').prev()
           card.css("left", +offsetX)
           
-          
+   $('.new_card'). on "mousemove", (e) ->
+    #prevent default actions like scrolling
+    if mouseIsDown
+      newCard = $(this)
+      e.preventDefault()
+      # aigain stupid eventhandler bugfix
+      touch = event;
+      
+      #the distance the finger has moved
+      offsetY = touch.pageY - tempTouchY
+      
+      #detects the direction
+      if offsetY <= -maxOffset && gesture  == "topdown"
+        gesture = "top"
+        swipe(touch, "new_card")
+  
+      
+      #allows the card only to move left/right or top/down
+      if offsetY <= -minOffset && !gesture
+        gesture = "topdown"
+        
+   
+      if gesture is "topdown" or "top"
+        newCard.css("top", +offsetY - 25)  
+               
+            
   #mouse stuff
   $('.card_set').on "mouseup", (e) ->
     mouseIsDown = 0
     gesture = false
     update_order()
-      
-
+  
+  $('.new_card').on "mouseup", (e) ->
+    console.log "mouseup"
+    
+    $(this).animate {left:25, top:-30}, 200, () ->
+      gesture = false    
+      mouseIsDown = 0
   #on touchend reset cardPosition
   $('.card_set').on "touchend touchcancel", (e) ->
     gesture = false
@@ -278,8 +303,13 @@ $(document).ready ->
       
   new_card = () ->
     #$('.card_table').animate {opacity:0.3}, 200
+    $('.card_set.current').removeClass 'current'
+    
+    
     $.ajax(
       type: "get"
       url: "/sessions/new"
     ).done (html) ->
       $('.card_table_center').append html
+      $('.card_set.current').on "mousedown"
+      $('.card_set.current').on "touchstart"
