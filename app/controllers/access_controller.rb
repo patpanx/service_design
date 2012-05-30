@@ -28,7 +28,7 @@ class AccessController < ApplicationController
       #if user is not blank save user.id in session an redirect to user-settings
       unless @user.blank?
         session[ :logged_user_id ] = @user.id
-        redirect_to @user
+        redirect_to active_sessions_sessions_path
 
       else
         logger.debug "-- params['/access/login'][ :email].blank?:#{params[ '/access/login' ][ :email ].blank?}"
@@ -50,7 +50,7 @@ class AccessController < ApplicationController
           logger.debug "-- @user.id:#{@user.id}"
           session[ :logged_user_id ] = @user.id
           logger.debug "-- users_path(@user)#{users_path(@user)}"
-          redirect_to @user
+          redirect_to active_sessions_sessions_path
 
         else
           redirect_to access_login_path

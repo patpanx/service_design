@@ -43,6 +43,7 @@ a:active {
 	top: 0px;
 	background-color: #555;
 	padding: 0px;
+	overflow:hidden;
 }
 
 td {

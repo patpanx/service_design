@@ -3,9 +3,9 @@
 	<head>
 		<title>ServiceDesign</title>
 
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=false" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0" />
 		<meta name="apple-mobile-web-app-capable" content="yes" />
-		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
 
 		<%= stylesheet_link_tag    "mobile", :media => "all" %>
@@ -20,16 +20,16 @@
 			<div id="content">
 				<%= yield %>
 			</div>
-			<div id="navi">
+			<div id="navi" style="display:none">
 				<% unless @current_user.blank?%>
 				<% if is_admin? %>
-				<%= link_to 'Profile', users_path%>
+				<%= link_to 'Profile', users_path,:remote => true, :id => "ajax_trigger"%>
 				<% else %>
-				<%= link_to 'Profile', user_path(@current_user)%>
+				<%= link_to 'Profile', user_path(@current_user),:remote => true, :id => "ajax_trigger" %>
 				<% end %>
-				<%= link_to 'Sessions', active_sessions_sessions_path %>
-				<%= link_to 'new Message', new_session_path %>
-				<%= link_to 'logout', access_logout_path%>
+				<%= link_to 'Sessions', active_sessions_sessions_path%>
+				<%= link_to 'new Message', new_session_path, :remote => true, :id => "ajax_trigger" %>
+				<%= link_to 'logout', access_logout_path, :remote => true, :id => "ajax_trigger"%>
 				<%= yield :navi %>
 				<% end %>
 

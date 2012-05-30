@@ -149,16 +149,18 @@ class SessionsController < ApplicationController
     #@complete_answered_sessions = Session.find(:all, :conditions =>  { :receiver_id => @current_user.id, :status => 'complete'})
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html do
+        render :action => 'active_receiver_asked', :formats => 'html', :layout => false
+      end
       format.json { render json: @session }
       format.mobile do
-        render :action => 'active_receiver_asked', :formats => 'html', :layout => 'application.mobile.erb'
+        render :action => 'active_receiver_asked', :formats => 'html', :layout => false
       end
     end
   end
   
-    def active_owner_answered
-          
+  def active_owner_answered
+        
     #@active_receiver_asked = Session.find(:all, :conditions =>  { :receiver_id => @current_user.id, :status => 'asked'})
     @active_owner_answered = Session.find(:all, :conditions =>  { :owner_id => @current_user.id, :status => 'answered'})
     #@active_owner_asked = Session.find(:all, :conditions =>  { :owner_id => @current_user.id, :status => 'asked'})
@@ -166,15 +168,17 @@ class SessionsController < ApplicationController
     #@complete_answered_sessions = Session.find(:all, :conditions =>  { :receiver_id => @current_user.id, :status => 'complete'})
     
     respond_to do |format|
-      format.html # show.html.erb
+      format.html do
+        render :action => 'active_owner_answered', :formats => 'html', :layout => false
+      end
       format.json { render json: @session }
       format.mobile do
-        render :action => 'active_owner_answered', :formats => 'html', :layout => 'application.mobile.erb'
+        render :action => 'active_owner_answered', :formats => 'html', :layout => false
       end
     end
-    end
+  end
     
-    def active_owner_asked
+  def active_owner_asked
     #@active_sessions = Session.find(:all, :conditions =>  [ 'owner_id = :current_user or receiver_id = :current_user and status = :status_new or status = :status_received', {:current_user => @current_user.id, :status_new => "new", :status_received => 'received'}] )  
     
     #@active_receiver_asked = Session.find(:all, :conditions =>  { :receiver_id => @current_user.id, :status => 'asked'})
@@ -184,17 +188,39 @@ class SessionsController < ApplicationController
     #@complete_answered_sessions = Session.find(:all, :conditions =>  { :receiver_id => @current_user.id, :status => 'complete'})
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html do
+        render :action => 'active_owner_asked', :formats => 'html', :layout => false
+      end
       format.json { render json: @session }
       format.mobile do
-        render :action => 'active_owner_asked', :formats => 'html', :layout => 'application.mobile.erb'
+        render :action => 'active_owner_asked', :formats => 'html', :layout => false
       end
     end
+  end
+  
+  def passiv_all
+    #@active_sessions = Session.find(:all, :conditions =>  [ 'owner_id = :current_user or receiver_id = :current_user and status = :status_new or status = :status_received', {:current_user => @current_user.id, :status_new => "new", :status_received => 'received'}] )  
+    
+    #@active_receiver_asked = Session.find(:all, :conditions =>  { :receiver_id => @current_user.id, :status => 'asked'})
+    #@active_owner_answered = Session.find(:all, :conditions =>  { :owner_id => @current_user.id, :status => 'answered'})
+    @pass_all = Session.find(:all, :conditions => ['owner_id = ? OR receiver_id = ?', @current_user.id, @current_user.id])
+    #@complete_owner_complete = Session.find(:all, :conditions =>  { :owner_id => @current_user.id, :status => 'complete'})
+    #@complete_answered_sessions = Session.find(:all, :conditions =>  { :receiver_id => @current_user.id, :status => 'complete'})
+
+    respond_to do |format|
+      format.html do
+        render :action => 'passiv_all', :formats => 'html', :layout => false
+      end
+      format.json { render json: @session }
+      format.mobile do
+        render :action => 'passiv_all', :formats => 'html', :layout => false
+      end
     end
+  end
     
     
-    def active_sessions
-       respond_to do |format|
+  def active_sessions
+    respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @session }
       format.mobile do

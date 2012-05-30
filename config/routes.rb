@@ -13,6 +13,7 @@ ServiceDesign::Application.routes.draw do
     get :active_owner_answered, :on => :collection
     get :active_owner_asked, :on => :collection
     get :show_active, :on => :collection
+    get :passiv_all, :on => :collection
   end
 
   resources :messages do

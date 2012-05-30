@@ -16,13 +16,13 @@
 			<div id="navi">
 				<% unless @current_user.blank?%>
 				<% if is_admin? %>
-				<%= link_to 'Profile', users_path%>
+				<%= link_to 'Profile', users_path, :remote => true, :id => "ajax_trigger"%>
 				<% else %>
-				<%= link_to 'Profile', user_path(@current_user)%>
+				<%= link_to 'Profile', user_path(@current_user), :remote => true, :id => "ajax_trigger"%>
 				<% end %>
-				<%= link_to 'Sessions', active_sessions_sessions_path %>
-				<%= link_to 'new Message', new_session_path %>
-				<%= link_to 'logout', access_logout_path%>
+				<%= link_to 'Sessions', active_sessions_sessions_path%>
+				<%= link_to 'new Message', new_session_path, :remote => true, :id => "ajax_trigger"%>
+				<%= link_to 'logout', access_logout_path, :remote => true, :id => "ajax_trigger"%>
 				<%= yield :navi %>
 				<% end %>
 
