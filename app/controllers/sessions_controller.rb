@@ -203,7 +203,7 @@ class SessionsController < ApplicationController
     
     #@active_receiver_asked = Session.find(:all, :conditions =>  { :receiver_id => @current_user.id, :status => 'asked'})
     #@active_owner_answered = Session.find(:all, :conditions =>  { :owner_id => @current_user.id, :status => 'answered'})
-    @pass_all = Session.find(:all, :conditions => ['owner_id = ? OR receiver_id = ?', @current_user.id, @current_user.id])
+    @passiv_all = Session.find(:all, :conditions => ['owner_id = ? OR receiver_id = ?', @current_user.id, @current_user.id])
     #@complete_owner_complete = Session.find(:all, :conditions =>  { :owner_id => @current_user.id, :status => 'complete'})
     #@complete_answered_sessions = Session.find(:all, :conditions =>  { :receiver_id => @current_user.id, :status => 'complete'})
 

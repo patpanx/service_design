@@ -42,8 +42,8 @@ window.scripts = () ->
     if prevCard.length == 0 #when the first card of the <div>'s is the top card, then there is no previous card
       prevCard = cardSets.last() # so take the last card
     
-  $('a.section').on "touchstart", (e) ->
-    section = $('.card .section') #gets the top card in the "visible" stack - not equal to the top card-<Div>
+  $('.section').on "touchstart", (e) ->
+    section = $('div.section') #gets the top card in the "visible" stack - not equal to the top card-<Div>
     #console.log "card before:" + card
     console.log "section"
   # when the finger is moved
@@ -59,22 +59,21 @@ window.scripts = () ->
     e.preventDefault()
     new_card_up(e,$(this))
   
-  $('a .card .section').on "touchmove", (e) ->
+  $('.section').on "touchmove", (e) ->
     #prevent default actions like scrolling
     e.preventDefault()
     move_section(e)
   
   $('.card_set').on "touchend touchcancel", (e) ->
-    #console.log "touchend gesture: " + gesture
-    
+    #console.log "touchend gesture: " + gesture  
     touch_end(e)
     update_order()
   
   $('.new_card').on "touchend touchcancel", (e) ->
     $(this).animate {left:25, top:-30}, 200, () ->
-      touch_end(e,$(this))
+      touch_end(e)
       
-  $('.card.section').on "touchend touchcancel", (e) ->
+  $('.section').on "touchend touchcancel", (e) ->
     touch_end(e)
     update_section()     
   #mouse stuff -----------------------------
@@ -92,9 +91,9 @@ window.scripts = () ->
     if prevCard.length == 0 #when the first card of the <div>'s is the top card, then there is no previous card
       prevCard = cardSets.last() # so take the last card
   
-  $('.card .section').on "mousedown", (e) ->
+  $('.section').on "mousedown", (e) ->
     mouseIsDown = 1
-    section = $('.card .section') #gets the top card in the "visible" stack - not equal to the top card-<Div>
+    section = $('div.section') #gets the top card in the "visible" stack - not equal to the top card-<Div>
     
   # when the finger is moved
   $('.card_set').on "mousemove", (e) ->
@@ -108,10 +107,11 @@ window.scripts = () ->
     if mouseIsDown
       new_card_up(e,$(this))
   
-  $('.card .section').on "mousemove", (e) ->
+  $('.section').on "mousemove", (e) ->
     #prevent default actions like scrolling
     e.preventDefault()
-    move_section(e)
+    if mouseIsDown
+      move_section(e)
   
                   
   $('.card_set').on "mouseup", (e) ->
@@ -121,9 +121,9 @@ window.scripts = () ->
   $('.new_card').on "mouseup", (e) ->
     #on touchend reset newCardPosition
     $(this).animate {left:25, top:-30}, 200, () ->
-      touch_end(e,$(this))
+      touch_end(e)
 
-  $('.card.section').on "mouseup", (e) ->
+  $('.section').on "mouseup", (e) ->
     touch_end(e)
     update_section()
   
@@ -135,7 +135,7 @@ window.scripts = () ->
   
   swipe = (touch,gesture) ->
     
-    #console.log "hey gesture: " + gesture
+    console.log "swipe gesture: " + gesture
     if gesture == "left"
       next_card()
     else if gesture == "right"
@@ -181,7 +181,7 @@ window.scripts = () ->
     
     $('.card_set').css "z-index", "+=1"           #move all cards one step upwards
     actual = $('.card_set.current')
-    if actual == 0
+    if actual.length == 0
        make_top_current()
        actual = $('.card_set.current')                  # save the current "top-card"
     actual.removeClass "current"            
@@ -198,8 +198,9 @@ window.scripts = () ->
     $('.card_set').not('.new').each ->
       tCard = $(this) #tempcard
       id = tCard.css "z-index" #gets the z-index => "visible" order of the cards
-      tCard.animate {left: (100-id)*5, top:-(100-id)*5}, 400 #card animation + stack animation
+      tCard.animate {left: (100-id)*3, top:-(100-id)*3}, 400 #card animation + stack animation
       
+    $('.card_set.new').animate {left: 0, top:0}, 400 #card animation + stack animation  
   update_section = () ->
     console.log "update"
     $('.card_set').each ->
@@ -345,22 +346,17 @@ window.scripts = () ->
       gesture = "new_card"
       #swipe(touch, "new_card")
       
-  touch_end = (e) ->
-    swipe(e, gesture)
-    gesture = ""    
-    mouseIsDown = 0
-    
+ 
   move_section = (e) ->
-    console.log "mousemove"
     touch = event
     #console.log "gesture: " + gesture
     #the distance the finger has moved
     
     offsetX = touch.pageX - tempTouchX
-    
+    offsetY = touch.pageY - tempTouchY
     
     #allows the card only to move left/right or top/down
-    if offsetY <= -minOffset && !gesture or offsetY >= minOffset && !gesture
+    if offsetY <= -2*minOffset && !gesture or offsetY >= 2*minOffset && !gesture
       gesture = "topdown"
       
     else if offsetX <= -minOffset && !gesture or offsetX >= minOffset && !gesture
@@ -369,15 +365,13 @@ window.scripts = () ->
      
     if gesture is "topdown" or gesture is "up" or gesture is "down"
       #console.log "if i was..."
-      if offsetY <= -maxOffset
-        offsetY = 0
-      section.css("top", +offsetY - 25)
+      if offsetY >= 0
+        $('.section.card').css("top", offsetY - 25)
       
 
     else if gesture is "leftright" or gesture is "right" or gesture is "left"
-        
-      section.css("left", +offsetX) 
-    
+      $('.section.card.current').css("left", offsetX - 25)
+       
     #detects the direction
     if offsetX <= -maxOffset && gesture is "leftright"
       gesture = "turnleft"
@@ -394,6 +388,12 @@ window.scripts = () ->
       
     else if offsetY >= maxOffset && gesture is "topdown"
       
-      gesture = "logout"
+      gesture = "logout"  
       
-    
+      
+  touch_end = (e) ->
+    console.log "touch_end gesture:" + gesture
+    swipe(e, gesture)   
+    mouseIsDown = 0
+    gesture = ''
+      

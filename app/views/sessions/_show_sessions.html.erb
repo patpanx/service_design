@@ -1,7 +1,7 @@
 <% unless conversations.blank? %>
 
 <% conversations.each_with_index do |session, sIndex|%>
-<div id="<%= sIndex %>" class="card_set<% if sIndex == 0%> current<% end %>"  data-id="<%= sIndex %>" style="z-index:<%= 100-sIndex%>; left:<%= 5*sIndex%>px; top:<%= 5*-sIndex%>px;">
+<div id="<%= sIndex %>" class="card_set<% if sIndex == 0%> current<% end %>"  data-id="<%= sIndex %>" style="z-index:<%= 100-sIndex%>; left:<%= 3*sIndex%>px; top:<%= 3*-sIndex%>px;">
 	<% @active_messages = session.message %>
 
 	<% @active_messages.each_with_index do |message, mIndex| %>
@@ -36,5 +36,17 @@
 	<% end %>
 </div>
 <% end %>
+<% else %>
+<div id=">" class="card_set current"  data-id="" style="z-index:100; left:0px; top:0px;">
+	<div id="0" class="card">
+		<div class="card_deck">
+				<div class="card_text">
+					<p>
+						no Messages!
+					</p>
+				</div>
+		</div>
+	</div>
+</div>
 
 <% end %>

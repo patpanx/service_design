@@ -1,62 +1,62 @@
 <div class= "card_table">
 	<div class= "card_table_center">
-		<%= link_to(active_receiver_asked_sessions_path,:remote => true, :id => "ajax_trigger", :class => "section") do%>
-		<div class="section card active_receiver_asked" style="left: 0px; z-index:5; -webkit-transform:scale(0.5);scale(0.4);">
+		<%= link_to(active_receiver_asked_sessions_path,:remote => true, :id => "ajax_trigger") do%>
+		<div class="section card current active_receiver_asked" style="left: 0px; z-index:5; -webkit-transform:scale(0.5);scale(0.4);">
 			<div class="card_deck">
 				<div class="card_title"></div>
 				<div class="card_image" style="display: none;"></div>
 				<div class="card_text">
 					<p style="font-size: 85px;">
-						? (reply)
+						?
 					</p>
 				</div>
 			</div>
 		</div>
 		<% end %>
 
-		<%= link_to(active_owner_answered_sessions_path,:remote => true, :id => "ajax_trigger", :class => "section") do%>
+		<%= link_to(active_owner_answered_sessions_path,:remote => true, :id => "ajax_trigger") do%>
 		<div class="section card active_owner_answered"style="left: -60px;top: 0px; z-index:4;-webkit-transform: scale(0.4); -moz-transform: scale(0.6);">
 			<div class="card_deck">
 				<div class="card_title"></div>
 				<div class="card_image" style="display: none;"></div>
 				<div class="card_text">
 					<p style="font-size: 85px;">
-						! (inbox)
+						!
 					</p>
 				</div>
 			</div>
 		</div>
 		<% end %>
 		
-		<%= link_to(passiv_all_sessions_path, :remote => true, :id => "ajax_trigger", :class => "section") do%>
+		<%= link_to(passiv_all_sessions_path, :remote => true, :id => "ajax_trigger") do%>
 		<div class="section card active_owner_asked" style="left: 60px;top: 0px; z-index:4; -webkit-transform: scale(0.4); -moz-transform: scale(0.4);">
 			<div class="card_deck">
 				<div class="card_title"></div>
 				<div class="card_image" style="display: none;"></div>
 				<div class="card_text">
 					<p style="font-size: 85px;">
-						p (history)
+						H
 					</p>
 				</div>
 			</div>
 		</div>
 		<% end %>
 		
-		<%= link_to(user_path(@current_user),:remote => true, :id => "ajax_trigger", :class => "section") do%>
+		<%= link_to(user_path(@current_user),:remote => true, :id => "ajax_trigger") do%>
 		<div class="section card user"style="left: -100px;top: 0px; z-index:3;-webkit-transform: scale(0.3); -moz-transform: scale(0.6);">
 			<div class="card_deck">
 				<div class="card_title"></div>
 				<div class="card_image" style="display: none;"></div>
 				<div class="card_text">
 					<p style="font-size: 85px;">
-						Settings
+						set
 					</p>
 				</div>
 			</div>
 		</div>
 		<% end %>
 		
-		<%= link_to(active_owner_answered_sessions_path,:remote => true, :id => "ajax_trigger", :class => "section") do%>
+		<%= link_to(active_owner_answered_sessions_path,:remote => true, :id => "ajax_trigger") do%>
 		<div class="section card active_owner_answered"style="left: 100px;top: 0px; z-index:3;-webkit-transform: scale(0.3); -moz-transform: scale(0.6);">
 			<div class="card_deck">
 				<div class="card_title"></div>
