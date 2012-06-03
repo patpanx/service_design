@@ -84,12 +84,14 @@ class MessagesController < ApplicationController
     if @message.session.message.size <=1
       @message.status = "asked"
       @message_session.status = "asked"
+      @message.receiver_id = @receiver_id 
     else
       @message.status = "answered"
       @message_session.status = "answered"
+      @message.receiver_id = @message.session.owner_id
     end
     logger.debug "---- @message.session: #{ @message.session }"
-    @message.receiver_id = @receiver_id
+    
     @message.save
     @message_session.save
 
@@ -102,9 +104,9 @@ class MessagesController < ApplicationController
     
     respond_to do |format|
       if @message.update_attributes(params[:message])
-        #render :file => :nothing
+        render :file => false
       else
-        #render :file => :nothing
+        render :file => false
       end
     end
 

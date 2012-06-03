@@ -1,21 +1,15 @@
 <% unless conversations.blank? %>
 
 <% conversations.each_with_index do |session, sIndex|%>
-<div id="<%= sIndex %>" class="card_set<% if sIndex == 0%> current<% end %>"  data-id="<%= sIndex %>" style="z-index:<%= 100-sIndex%>; left:<%= 3*sIndex%>px; top:<%= 3*-sIndex%>px;">
+<div id="<%= sIndex %>" class="card_set<% if sIndex == 0%> current<% end %>"  data-id="<%= sIndex %>" style="z-index:<%= 100-sIndex%>; left:<%= 2*sIndex%>px; top:<%= 2*-sIndex%>px;">
 	<% @active_messages = session.message %>
 
 	<% @active_messages.each_with_index do |message, mIndex| %>
 
-	<div id="<%= mIndex %>" class="card <% if mIndex.even? %>front side<%else%>back side<%end%>">
+	<div id="<%= mIndex %>" class="card <% if mIndex.even? %>front <%else%>back <%end%>">
 		<div class="card_deck">
 			<% logger.debug "-------- card_type " + card_type %>
-			<% unless card_type == "active_receiver_asked" && mIndex == 1 %>
-				<% unless message.media_file_name.blank? %>
-				<div class="card_image">
-					<%= image_tag message.media.url(:small) %>
-				</div>
-				<% end %>
-	
+			<% unless message.text.blank? && mIndex == 1 && message.owner_id == @current_user.id%>
 				<div class="card_text">
 					<p>
 						<%= message.text %>
@@ -26,10 +20,25 @@
 					<div class="field card_text">
 						<%= f.text_area :text, :class => 'submittable', :style=>'width: 100%;' %>
 					</div>
-				<% end %>
-
-				
+				<% end %>	
 			<% end %>
+		</div>
+		<div class="card_banner<% if message.owner_id == @current_user.id%> you<%else%> someone<%end%>">
+			<% if message.owner_id == @current_user.id && mIndex.even?%>
+				<p>YOU ASKED</p>
+			<% elsif message.owner_id == @current_user.id %>
+				<% if message.text.blank? %>
+				<p>YOUR ANSWER:</p>	
+				<% else %>
+				<p>YOU ANSWERED</p>
+				<% end%>
+			<% elsif message.receiver_id == @current_user.id && mIndex.even? %>
+				<p>SOMEBODY ASKED</p>
+			<% elsif message.receiver_id == @current_user.id %>
+				<p>SOMEBODY ANSWERED</p>
+			<% else %>
+				<p>waiting...</p>
+			<% end %> 	
 		</div>
 	</div>
 
@@ -42,7 +51,7 @@
 		<div class="card_deck">
 				<div class="card_text">
 					<p>
-						no Messages!
+						no new Messages!
 					</p>
 				</div>
 		</div>

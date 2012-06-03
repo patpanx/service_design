@@ -1,13 +1,26 @@
-<div class= "card_table">
-	<div class= "card_table_center">
 
-		<%= render :partial => 'show_sessions', :locals => { :conversations => @passiv_all, :title_message => "History", :card_type => "passiv_all"  } %>
+<div id="wall">
+	<div id="cards" class="side">
+		
+		<div class= "card_table">
 
+				<%= link_to '', edit_user_path(@current_user), :remote => true, :id => "button_settings" %>
+			
+				<div class= "card_table_center">
+			
+					<%= render :partial => 'show_sessions', :locals => { :conversations => @passiv_all, :title_message => "History", :card_type => "passiv_all"  } %>
+			
+				</div>
+				<div class="card_holder">
+			
+					<%= render :partial => 'new_card', :locals => { :conversations => @active_owner_answered, :title_message => "new Answers"  } %>
+	
+				</div>
+				<div class="card_holder_deck"></div>
+
+		</div>
 	</div>
-	<div class="card_holder">
-
-		<%= render :partial => 'new_card', :locals => { :conversations => @active_owner_answered, :title_message => "new Answers"  } %>
-		<div class="card_holder_deck"></div>
-
+	<div id="settings" class="side back">
+		<%= render :partial => 'show_user_settings', :locals => {:user => @current_user}%>
 	</div>
 </div>

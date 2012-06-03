@@ -26,11 +26,10 @@ body{
   z-index: 1000;
   
 }
-a, a:visited, a:hover {
+a:link, a:visited, a:hover {
   color: #222;
   text-decoration:none;
-
-  padding: 0em 1em;
+  padding: 0em 0.5em;
 }
 a:active {
   color: #000;
@@ -41,8 +40,9 @@ a:active {
   position: relative;
   top: 35px;
   background-color: #EEEEEE;
-  
 }
+
+
 
 td {
   padding: 0em 1em;

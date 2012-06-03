@@ -10,8 +10,8 @@
 ########
 
 window.scripts = () ->
-  minOffset = 20 # min offset Value for direction detection
-  maxOffset = 200 # max offset Value - triggers the action (like send, nextcard etc)
+  minOffset = 40 # min offset Value for direction detection
+  maxOffset = 400 # max offset Value - triggers the action (like send, nextcard etc)
   valX = 0
   valY = 0
   tempTouchX = 0
@@ -29,10 +29,13 @@ window.scripts = () ->
     #console.log t
     unless t.is 'textarea'
       card.toggleClass 'rotated'
-     
+  $('#button_settings').click (e) ->
+    $('#wall').animate {"-webkit-transform": "rotateY(180deg)"}, 1500
+    
   #when finger touches
   $('.card_table').on "touchstart", (e) ->
     save_tempP(e)
+  
   
   
   $('.card_set').on "touchstart", (e) ->
@@ -70,7 +73,7 @@ window.scripts = () ->
     update_order()
   
   $('.new_card').on "touchend touchcancel", (e) ->
-    $(this).animate {left:25, top:-30}, 200, () ->
+    $(this).animate {left:90, top:-30}, 200, () ->
       touch_end(e)
       
   $('.section').on "touchend touchcancel", (e) ->
@@ -120,12 +123,16 @@ window.scripts = () ->
   
   $('.new_card').on "mouseup", (e) ->
     #on touchend reset newCardPosition
-    $(this).animate {left:25, top:-30}, 200, () ->
+    $(this).animate {left:90, top:-30}, 200, () ->
       touch_end(e)
 
   $('.section').on "mouseup", (e) ->
     touch_end(e)
     update_section()
+    
+  $('.card_table').on "mouseup", (e) ->
+    
+    touch_end(e)
   
     
   
@@ -198,9 +205,9 @@ window.scripts = () ->
     $('.card_set').not('.new').each ->
       tCard = $(this) #tempcard
       id = tCard.css "z-index" #gets the z-index => "visible" order of the cards
-      tCard.animate {left: (100-id)*3, top:-(100-id)*3}, 400 #card animation + stack animation
+      tCard.animate {left: (100-id)*2, top:-(100-id)*2}, 700 #card animation + stack animation
       
-    $('.card_set.new').animate {left: 0, top:0}, 400 #card animation + stack animation  
+    $('.card_set.new').animate {left: 0, top:0}, 700 #card animation + stack animation  
   update_section = () ->
     console.log "update"
     $('.card_set').each ->
@@ -284,15 +291,11 @@ window.scripts = () ->
      
     if gesture is "topdown" or gesture is "up" or gesture is "down"
       #console.log "if i was..."
-      unless actions == "onlySend"
-        if offsetY > 0
-          $('.card_set').css("top", +offsetY - 25)
-        else
-          card.css("top", +offsetY - 25)
-      else
+      
+      if offsetY < 0
         card.css("top", +offsetY - 25)
-
-     else if gesture is "leftright" or gesture is "right" or gesture is "left"
+      
+    else if gesture is "leftright" or gesture is "right" or gesture is "left"
         if offsetX < 0 #when the movement is to the right
           card.css("left", +offsetX) 
         else 
