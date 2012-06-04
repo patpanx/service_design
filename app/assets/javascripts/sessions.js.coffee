@@ -29,6 +29,14 @@ window.scripts = () ->
     #console.log t
     unless t.is 'textarea'
       card.toggleClass 'rotated'
+      if card.hasClass 'unread'
+        $.ajax(
+          type: "put"
+          url: "/sessions/"+ card.attr("id") + "/message_read"
+        )
+        card.removeClass 'unread'
+        card.children('.card_new_status').hide()
+      
   $('#button_settings').click (e) ->
     $('#wall').animate {"-webkit-transform": "rotateY(180deg)"}, 1500
     
@@ -58,9 +66,9 @@ window.scripts = () ->
     e.preventDefault()
     move_all(e,"")
   
-  $('.new_card').on "touchmove", (e) ->
+  $('.new_card,.card_holder_deck').on "touchmove", (e) ->
     e.preventDefault()
-    new_card_up(e,$(this))
+    new_card_up(e,$('.new_card'))
   
   $('.section').on "touchmove", (e) ->
     #prevent default actions like scrolling
@@ -72,9 +80,11 @@ window.scripts = () ->
     touch_end(e)
     update_order()
   
-  $('.new_card').on "touchend touchcancel", (e) ->
-    $(this).animate {left:90, top:-30}, 200, () ->
-      touch_end(e)
+  $('.new_card,.card_holder_deck').on "touchend touchcancel", (e) ->
+    unless gesture == "new_card"
+      $('.new_card').animate {left:90, top:-30}, 200, () ->
+        touch_end(e)
+    touch_end(e)
       
   $('.section').on "touchend touchcancel", (e) ->
     touch_end(e)
@@ -184,7 +194,8 @@ window.scripts = () ->
     $('.current .submittable').parents('form:first').submit();
     card.animate {top: -500, opacity: 0}, 500, ->
       card.remove()
-    
+      $('.new_card').show()
+      window.location.href = "/";
     
     $('.card_set').css "z-index", "+=1"           #move all cards one step upwards
     actual = $('.card_set.current')
@@ -229,11 +240,12 @@ window.scripts = () ->
   new_card = () ->
     #$('.card_table').animate {opacity:0.3}, 200
     $('.card_set.current').removeClass 'current'
-
+    
     $.ajax(
       type: "get"
       url: "/sessions/new"
     ).done (html) ->
+      $('.new_card').hide()
       $('.card_table_center').append html
       $('.card_set.current').on "touchmove", (e) ->
         card = $(this)
@@ -323,6 +335,8 @@ window.scripts = () ->
       else
         #console.log "remove new card"
         card.animate {top:500}, 500, () ->
+          $('.new_card').show()
+          $('.new_card').animate {left:90, top:-30}, 200, () ->
           card.remove()
           make_top_current()
                             

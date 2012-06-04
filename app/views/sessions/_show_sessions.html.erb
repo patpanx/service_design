@@ -1,12 +1,12 @@
 <% unless conversations.blank? %>
 
 <% conversations.each_with_index do |session, sIndex|%>
-<div id="<%= sIndex %>" class="card_set<% if sIndex == 0%> current<% end %>"  data-id="<%= sIndex %>" style="z-index:<%= 100-sIndex%>; left:<%= 2*sIndex%>px; top:<%= 2*-sIndex%>px;">
+<div id="<%= session.id %>" class="card_set<% if sIndex == 0%> current<% end %><% if session.status != "read"%> unread<%end%>"  data-id="<%= sIndex %>" style="z-index:<%= 100-sIndex%>; left:<%= 2*sIndex%>px; top:<%= 2*-sIndex%>px;">
 	<% @active_messages = session.message %>
 
 	<% @active_messages.each_with_index do |message, mIndex| %>
 
-	<div id="<%= mIndex %>" class="card <% if mIndex.even? %>front <%else%>back <%end%>">
+	<div id="<%= message.id %>" class="card <% if mIndex.even? %>front <%else%>back <%end%>">
 		<div class="card_deck">
 			<% logger.debug "-------- card_type " + card_type %>
 			<% unless message.text.blank? && mIndex == 1 && message.owner_id == @current_user.id%>
@@ -14,6 +14,9 @@
 					<p>
 						<%= message.text %>
 					</p>
+				</div>
+				<div class="card_date">
+						<%= message.updated_at.strftime("%d.%m.%Y %H:%M") %>
 				</div>
 			<% else %>
 				<%= form_for(message, :remote => true) do |f| %>
@@ -32,16 +35,21 @@
 				<% else %>
 				<p>YOU ANSWERED</p>
 				<% end%>
-			<% elsif message.receiver_id == @current_user.id && mIndex.even? %>
+			<% elsif message.owner_id != @current_user.id && mIndex.even? %>
 				<p>SOMEBODY ASKED</p>
-			<% elsif message.receiver_id == @current_user.id %>
+			<% elsif message.owner_id != @current_user.id && message.text.blank? != true %>
 				<p>SOMEBODY ANSWERED</p>
 			<% else %>
 				<p>waiting...</p>
 			<% end %> 	
 		</div>
+		
 	</div>
-
+	
+	<% end %>
+	<% if session.status != "read" || (session.status == "asked" && session.owner_id != @current_user.id) %>
+			<div class="card_new_status">
+			</div>
 	<% end %>
 </div>
 <% end %>

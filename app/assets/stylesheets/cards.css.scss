@@ -184,6 +184,23 @@
   
 }
 
+.card_date {
+  color: rgba(255,255,255,0.3);
+  position: relative;
+  bottom: 20px;
+}
+
+.card_new_status {
+  background-color: red;
+  position: absolute;
+  height: 40px;
+  width: 40px;
+  top: 40px;
+  right: 0px;
+  
+  
+}
+
 #button_settings {
   position: absolute;
   top:30px;

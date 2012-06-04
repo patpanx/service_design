@@ -47,7 +47,7 @@ class SessionsController < ApplicationController
     min_id = User.minimum("id")
     id_range = max_id - min_id + 1
     begin
-    random_id = min_id + rand(id_range).to_i
+      random_id = min_id + rand(id_range).to_i
    # logger.debug "---- random_id: #{ random_id }"
    #logger.debug "---- User.find(random_id).blank?: #{ User.find_by_id(random_id).blank? }"
     end while random_id == @current_user.id || User.find_by_id(random_id).blank?
@@ -245,6 +245,20 @@ class SessionsController < ApplicationController
         render :action => 'show_active', :formats => 'html', :layout => 'application.mobile.erb'
       end
     end
+  end
+    
+    
+  def message_read
+    @session = Session.find(params[:id])
+    unless @session.owner_id == @current_user.id
+      @session.status = "read"
+      @session.save
     end
+    respond_to do |format|
+       render :file => :false
+    end
+    
+    
+  end
   
 end

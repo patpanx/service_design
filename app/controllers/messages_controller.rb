@@ -79,27 +79,49 @@ class MessagesController < ApplicationController
   # PUT /messages/1.json
   def update
     @message = Message.find(params[:id])
+    @message.update_attributes(params[:message])
     @receiver_id = @message.session.receiver_id
     @message_session = @message.session
     if @message.session.message.size <=1
-      @message.status = "asked"
-      @message_session.status = "asked"
-      @message.receiver_id = @receiver_id 
+      logger.debug "---- @message.text.blank? #{ @message.text.blank? }"
+      if @message.text.blank?
+        @message_session.destroy
+      else
+        @message.status = "asked"
+        @message_session.status = "asked"
+        @message.receiver_id = @receiver_id 
+        @re_message = Message.new( :owner_id => @receiver_id, :session_id => @message.session_id)
+        @re_message.save
+      end
     else
-      @message.status = "answered"
-      @message_session.status = "answered"
-      @message.receiver_id = @message.session.owner_id
+      if @message.text.blank?
+        @message.destroy
+        max_id = User.maximum("id")
+        min_id = User.minimum("id")
+        id_range = max_id - min_id + 1
+        begin
+          random_id = min_id + rand(id_range).to_i
+       # logger.debug "---- random_id: #{ random_id }"
+       #logger.debug "---- User.find(random_id).blank?: #{ User.find_by_id(random_id).blank? }"
+        end while random_id == @current_user.id || random_id == @message_session.owner_id || User.find_by_id(random_id).blank?
+        @randomUser = User.find_by_id(random_id)
+        @message_session.receiver_id = @randomUser.id
+        @message_session.status = "asked"
+        @message_session.save
+        @re_message = Message.new( :owner_id => @randomUser.id, :session_id => @message.session_id)
+        @re_message.save
+      else
+        @message.status = "answered"
+        @message_session.status = "answered"
+        @message.receiver_id = @message.session.owner_id
+      end
     end
+    
     logger.debug "---- @message.session: #{ @message.session }"
     
     @message.save
     @message_session.save
 
-    if @message.session.message.size <=1
-      @re_message = Message.new( :owner_id => @receiver_id, :session_id => @message.session_id)
-    @re_message.save
-    end
-    
    
     
     respond_to do |format|
@@ -140,5 +162,7 @@ class MessagesController < ApplicationController
       end
     end
   end
-
+  
+ 
+  
 end
