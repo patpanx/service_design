@@ -108,10 +108,10 @@
 .card_banner {
   
   position: absolute;
-  top: 60px;
-  left: -80px;
-  width: 360px;
-  height: 50px;
+  top: 70px;
+  left: -70px;
+  width: 390px;
+  height: 60px;
   -webkit-transform: rotate(-40deg);
  
 }
@@ -125,8 +125,9 @@
 }
 
 .card_banner p {
-  padding-top: 13px;
-  font-size: 18px;
+  font-family:'Conv_UniversLTStd-Cn',Sans-Serif;
+  padding-top: 18px;
+  font-size: 25px;
   height: inherit;
   text-align: center;
 
@@ -136,10 +137,10 @@
 
 .card_text{
   font-family:'Conv_FairfieldLTStd-LightItalic',Sans-Serif;
-  font-size: 38px;
+  font-size: 50px;
   color:#ffffff;
   width: 100%;
-  height: 100%;
+  height: 650px;
   padding: 20px;
   display: table;
   overflow: hidden;
@@ -148,12 +149,20 @@
 .card_text p {
   display: table-cell;
   vertical-align: middle;
+  font-size: 50px;
 }
 
 .card_text textarea {
   -webkit-appearance: textarea;
-  background: rgba(255,255,255,0.5);
-  border: 0px solid;
+  font-family:'Conv_FairfieldLTStd-LightItalic',Sans-Serif;
+  height: 430px;
+  position: relative;
+  top: 190px;
+  font-size: 50px;
+  background: rgba(0,0,0,0.3);
+  color: #fff;
+  border-radius: 5px;
+  -webkit-box-shadow: inset 0px 0px 20px rgba(255,255,255,0.8);
   -webkit-rtl-ordering: logical;
   -webkit-user-select: text;
   -webkit-box-orient: vertical;
@@ -167,6 +176,19 @@
   text-align: center;
 
 }
+input {
+  -webkit-appearance: textfield;
+  font-family:'Conv_FairfieldLTStd-LightItalic',Sans-Serif;
+  font-size: 40px;
+  width: 300px;
+}
+
+input[type="button"], input[type="submit"], input[type="reset"], input[type="file"]::-webkit-file-upload-button, button {
+  position: relative;
+  height: 100%;
+  top: 30px;
+  -webkit-appearance: push-button;
+}
 
 .card_holder {
   height: 93px;
@@ -178,27 +200,49 @@
 }
 
 .card_title {
+  font-family:'Conv_UniversLTStd-Cn',Sans-Serif;
     margin: 15px 0 0 0;
-  font-size: 24px;
+  font-size: 35px;
   color:#CCC;
   
 }
 
 .card_date {
+  font-family:'Conv_UniversLTStd-Cn',Sans-Serif;
   color: rgba(255,255,255,0.3);
   position: relative;
   bottom: 20px;
+  font-size: 25px;
 }
 
 .card_new_status {
-  background-color: red;
+  background: #5e5e5e; /* Old browsers */
+  background-image:  -moz-linear-gradient(-45deg,  #5e5e5e 0%, #333333 100%); /* FF3.6+ */
+  background-image: -webkit-gradient(linear, left top, right bottom, color-stop(0%,#5e5e5e), color-stop(100%,#333333)); /* Chrome,Safari4+ */
+  background-image: -webkit-linear-gradient(-45deg,  #5e5e5e 0%,#333333 100%); /* Chrome10+,Safari5.1+ */
+  background-image: -o-linear-gradient(-45deg,  #5e5e5e 0%,#333333 100%); /* Opera 11.10+ */
+  background-image: -ms-linear-gradient(-45deg,  #5e5e5e 0%,#333333 100%); /* IE10+ */
+  background: linear-gradient(-45deg,  #5e5e5e 0%,#333333 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#5e5e5e', endColorstr='#333333',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+ 
   position: absolute;
-  height: 40px;
-  width: 40px;
   top: 40px;
   right: 0px;
   
-  
+  height: 60px;
+  width: 60px;
+  border-radius: 5px 0 0 5px;
+  box-shadow: 1px 1px 5px rgba(0,0,0,0.4);
+
+}
+
+.card_new_status .img {
+  background-image: url(../assets/new_batch.png);
+  background-position: 50% 50%;
+  background-size: 30px 30px;
+  background-repeat: no-repeat;
+  height: 60px;
+  width: 60px;
 }
 
 #button_settings {
@@ -207,12 +251,17 @@
   right: 30px;
 
   background-image: url("/assets/settings_button.png");
-  background-size:35px 35px;
+  background-size:70px 70px;
   background-repeat:no-repeat;
   background-position:center;
-  width: 35px;
-  height: 35px;
+  width: 70px;
+  height: 70px;
   z-index: 400;
+}
+.card_text textarea.grey_text {
+  color: #999;
+  
+  
 }
 
 .card_holder_deck {

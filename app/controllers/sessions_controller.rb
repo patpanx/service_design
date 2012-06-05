@@ -250,10 +250,13 @@ class SessionsController < ApplicationController
     
   def message_read
     @session = Session.find(params[:id])
-    unless @session.owner_id == @current_user.id
+    if @session.status == "answered" && @session.owner_id == @current_user.id
       @session.status = "read"
-      @session.save
+    elsif @session.status == "asked" && @session.receiver_id == @current_user.id
+      @session.status = "waiting"
+    
     end
+    @session.save
     respond_to do |format|
        render :file => :false
     end

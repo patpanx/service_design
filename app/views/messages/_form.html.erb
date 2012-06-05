@@ -3,7 +3,13 @@
 		<div class="card_deck">
 			<%= form_for(@message, :remote => true) do |f| %>
 			<div class="field card_text">
-				<%= f.text_area :text, :class => 'submittable', :style=>'width: 100%;' %>
+				<% a = ['If you can not convince them, confuse them.',
+					'Learn from yeterday, life for today, hope for tomorrow.',
+					'Life is like riding a bycicle. To keep your balance you must keep moving.',
+					'You can not have everything. Where would you put it?',
+					'If your going to tell the people the truth, be funny or they will kill you.',
+					'Do not cry because it is over. Smile because it happend.'].sample %>
+				<%= f.text_area :text, :class => 'grey_text submittable', :style=>'width: 100%;', :onfocus=> "$(this).removeClass('grey_text');if(this.value == '"+ a +"') { this.value = ''; }", :value=> a %>
 			</div>
 			<% end %>
 

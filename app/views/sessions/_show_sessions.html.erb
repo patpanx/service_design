@@ -1,7 +1,7 @@
 <% unless conversations.blank? %>
 
 <% conversations.each_with_index do |session, sIndex|%>
-<div id="<%= session.id %>" class="card_set<% if sIndex == 0%> current<% end %><% if session.status != "read"%> unread<%end%>"  data-id="<%= sIndex %>" style="z-index:<%= 100-sIndex%>; left:<%= 2*sIndex%>px; top:<%= 2*-sIndex%>px;">
+<div id="<%= session.id %>" class="card_set<% if sIndex == 0%> current<% end %><% if (session.status == "answered" && session.owner_id == @current_user.id) || (session.status == "asked" && session.receiver_id == @current_user.id) %> unread<%end%>"  data-status="<%= session.status%>" data-id="<%= sIndex %>" style="z-index:<%= 100-sIndex%>; left:<%= 2*sIndex%>px; top:<%= 2*-sIndex%>px;">
 	<% @active_messages = session.message %>
 
 	<% @active_messages.each_with_index do |message, mIndex| %>
@@ -12,7 +12,7 @@
 			<% unless message.text.blank? && mIndex == 1 && message.owner_id == @current_user.id%>
 				<div class="card_text">
 					<p>
-						<%= message.text %>
+						"<%= message.text %>"
 					</p>
 				</div>
 				<div class="card_date">
@@ -47,8 +47,11 @@
 	</div>
 	
 	<% end %>
-	<% if session.status != "read" || (session.status == "asked" && session.owner_id != @current_user.id) %>
+	<% if (session.status == "answered" && session.owner_id == @current_user.id) || (session.status == "asked" && session.receiver_id == @current_user.id) %>
 			<div class="card_new_status">
+				<div class="img">
+					
+				</div>
 			</div>
 	<% end %>
 </div>
@@ -59,7 +62,7 @@
 		<div class="card_deck">
 				<div class="card_text">
 					<p>
-						no new Messages!
+						ayASK
 					</p>
 				</div>
 		</div>
