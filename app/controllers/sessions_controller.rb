@@ -43,17 +43,9 @@ class SessionsController < ApplicationController
   def new
     logger.debug "-- current_user.id:#{ @current_user.id }"
     
-    max_id = User.maximum("id")
-    min_id = User.minimum("id")
-    id_range = max_id - min_id + 1
-    begin
-      random_id = min_id + rand(id_range).to_i
-   # logger.debug "---- random_id: #{ random_id }"
-   #logger.debug "---- User.find(random_id).blank?: #{ User.find_by_id(random_id).blank? }"
-    end while random_id == @current_user.id || User.find_by_id(random_id).blank?
-    @randomUser = User.find_by_id(random_id)
+ 
    # logger.debug "---- users: #{ @randomUser.id }"
-    @session = Session.new(:owner_id => current_user.id, :receiver_id => @randomUser.id)
+    @session = Session.new(:owner_id => current_user.id)
     @session.save
     @message = Message.new(:session_id => @session.id, :owner_id => current_user.id)
     @message.save
@@ -262,6 +254,20 @@ class SessionsController < ApplicationController
     end
     
     
+  end
+  
+  def delete_session
+    @session = Session.find(params[:id])
+    if @session.owner_id == @current_user.id  
+      @session.owner_id = nil
+    elsif @session.receiver_id == current_user.id
+      @session.receiver_id = nil
+    end
+    @session.save
+    
+    respond_to do |format|
+       render :file => false
+    end
   end
   
 end

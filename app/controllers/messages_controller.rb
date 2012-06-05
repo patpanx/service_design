@@ -87,6 +87,16 @@ class MessagesController < ApplicationController
       if @message.text.blank?
         @message_session.destroy
       else
+        max_id = User.maximum("id")
+        min_id = User.minimum("id")
+        id_range = max_id - min_id + 1
+        begin
+          random_id = min_id + rand(id_range).to_i
+       # logger.debug "---- random_id: #{ random_id }"
+       #logger.debug "---- User.find(random_id).blank?: #{ User.find_by_id(random_id).blank? }"
+        end while random_id == @current_user.id || User.find_by_id(random_id).blank?
+        @randomUser = User.find_by_id(random_id)
+        @message.receiver_id = @randomUser.id
         @message.status = "asked"
         @message_session.status = "asked"
         @message.receiver_id = @receiver_id 

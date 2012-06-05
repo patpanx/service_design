@@ -11,7 +11,7 @@
 
 window.scripts = () ->
   minOffset = 40 # min offset Value for direction detection
-  maxOffset = 400 # max offset Value - triggers the action (like send, nextcard etc)
+  maxOffset = 200 # max offset Value - triggers the action (like send, nextcard etc)
   valX = 0
   valY = 0
   tempTouchX = 0
@@ -23,20 +23,7 @@ window.scripts = () ->
   mouseIsDown = 0
   
   
-  #flip function
-  card.click (e) ->
-    t = $(e.originalEvent.target)
-    #console.log t
-    unless t.is 'textarea'
-      card.toggleClass 'rotated'
-      if card.hasClass 'unread'
-        $.ajax(
-          type: "put"
-          url: "/sessions/"+ card.attr("id") + "/message_read"
-        )
-        card.removeClass 'unread'
-        card.children('.card_new_status').hide()
-      
+ 
   $('#button_settings').click (e) ->
     $('#wall').animate {"-webkit-transform": "rotateY(180deg)"}, 1500
     
@@ -149,6 +136,22 @@ window.scripts = () ->
   #functions ==================
   #
   #
+   #flip function
+  card.click (e) ->
+    t = $(e.originalEvent.target)
+    #console.log t
+    unless t.is 'textarea'
+      card.toggleClass 'rotated'
+      if card.hasClass 'unread'
+        $.ajax(
+          type: "put"
+          url: "/sessions/"+ card.attr("id") + "/message_read"
+        )
+        card.removeClass 'unread'
+        card.children('.card_new_status').hide()
+      
+  
+  
   
   swipe = (touch,gesture) ->
     
@@ -161,7 +164,7 @@ window.scripts = () ->
       
       send_card()
     else if gesture == "down"
-      go_back()
+      delete_cardSet()
     else if gesture == "new_card"
       new_card()
       console.log "new_card"
@@ -192,7 +195,7 @@ window.scripts = () ->
   send_card = () ->
     console.log "send_card"
     $('.current .submittable').parents('form:first').submit();
-    card.animate {top: -500, opacity: 0}, 500, ->
+    card.animate {top: -1000, opacity: 0}, 500, ->
       card.remove()
       $('.new_card').show()
       window.location.href = "/";
@@ -247,33 +250,42 @@ window.scripts = () ->
     ).done (html) ->
       $('.new_card').hide()
       $('.card_table_center').append html
+      $('.card_set.current').on "touchstart", (e) ->
+        card = $('.card_set.current')
       $('.card_set.current').on "touchmove", (e) ->
-        card = $(this)
         #prevent default actions like scrolling
         e.preventDefault()
         move_all(e,"onlySend")
-      $('.card_set').on "touchend touchcancel", (e) ->
+      $('.card_set.current').on "touchend touchcancel", (e) ->
         touch_end(e)
         update_order()
       $('.card_set.current').on "mousemove", (e) ->
         if mouseIsDown
-          card = $(this)
           #prevent default actions like scrolling
           e.preventDefault()
           move_all(e,"onlySend")
-      $('.card_set').on "mouseup", (e) ->
+      $('.card_set.current').on "mouseup", (e) ->
         mouseIsDown = 0
         touch_end(e)
         update_order()
         
         
   go_back = () ->
-    $('.card_set').animate {top:500,opacity:0},500, () ->
+    $('.card_set').animate {top:1000,opacity:0},500, () ->
       window.location.href = "/";
   # gesture functions ---------------
   #
   #
   
+  delete_cardSet = () ->
+    if (confirm("delete Message?"))
+      $.ajax(
+        type: "get"
+        url: "/sessions/"+ card.attr("id") + "/delete_session"
+      )
+      card.animate {top:500,opacity:0},500, () ->
+        window.location.href = "/";
+    
   save_tempP = (e) ->
     # bugfix because jquery has problems with eventhandler
     touch = event
@@ -293,27 +305,34 @@ window.scripts = () ->
     offsetY = touch.pageY - tempTouchY
     
     #allows the card only to move left/right or top/down
-    if offsetY <= -minOffset && !gesture or offsetY >= minOffset && !gesture
-      
+    if (offsetY <= -minOffset && !gesture) or (offsetY >= minOffset && !gesture)
       gesture = "topdown"
       
-    else if offsetX <= -minOffset && !gesture or offsetX >= minOffset && !gesture
+    else if (offsetX <= -minOffset && !gesture) or (offsetX >= minOffset && !gesture)
       gesture = "leftright"
     
-     
+    else if (offsetX < minOffset && offsetX > -minOffset) && (gesture is "leftright" or gesture is "left" or gesture is "right")
+      gesture = false
+      card.animate left:0
+      console.log "reset" 
+      
+      
+    else if (offsetY < minOffset && offsetY > -minOffset) && (gesture is "topdown" or gesture is "up" or gesture is "down")
+      gesture = false
+      card.animate top:0 
+      console.log "reset"
+      
     if gesture is "topdown" or gesture is "up" or gesture is "down"
       #console.log "if i was..."
       
-      if offsetY < 0
+      #if offsetY < 0
         card.css("top", +offsetY - 25)
       
     else if gesture is "leftright" or gesture is "right" or gesture is "left"
         if offsetX < 0 #when the movement is to the right
-          card.css("left", +offsetX) 
+          card.css("left", +offsetX)
         else 
-          
           prevCard.css("left", +offsetX)
-    
     #detects the direction
     if offsetX <= -maxOffset && gesture is "leftright"
       gesture = "left"
@@ -334,12 +353,12 @@ window.scripts = () ->
         gesture = "down"
       else
         #console.log "remove new card"
-        card.animate {top:500}, 500, () ->
+        gesture = "down"
+        card.animate {top:1000}, 500, () ->
           $('.new_card').show()
-          $('.new_card').animate {left:90, top:-30}, 200, () ->
-          card.remove()
-          make_top_current()
-                            
+          $('.new_card').animate {left:90, top:-30}, 200
+            
+                                 
 
   new_card_up = (e,newCard) ->
     
@@ -351,9 +370,10 @@ window.scripts = () ->
     offsetY = touch.pageY - tempTouchY
     
     #allows the card only to move left/right or top/down
-    if offsetY <= -minOffset && !gesture
+    if offsetY <= -minOffset && !gesture 
       gesture = "topdown"
-      
+    else if offsetY > -minOffset
+      gesture = false 
     if gesture is "topdown" or "top"
       if offsetY <= 0 # new cardmoves only upwards
         newCard.css("top", +offsetY - 25)  
@@ -362,7 +382,6 @@ window.scripts = () ->
     if offsetY <= -maxOffset && gesture  == "topdown"
       gesture = "new_card"
       #swipe(touch, "new_card")
-      
  
   move_section = (e) ->
     touch = event

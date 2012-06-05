@@ -113,15 +113,32 @@
   width: 390px;
   height: 60px;
   -webkit-transform: rotate(-40deg);
+  box-shadow: 1px 1px 5px rgba(0,0,0,0.4);
  
 }
 
 .card_banner.you {
-  background: rgb(192,216,0);
+  background: #c9e000; /* Old browsers */
+background: -moz-linear-gradient(top,  #c9e000 0%, #9caa00 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#c9e000), color-stop(100%,#9caa00)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  #c9e000 0%,#9caa00 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  #c9e000 0%,#9caa00 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  #c9e000 0%,#9caa00 100%); /* IE10+ */
+background: linear-gradient(top,  #c9e000 0%,#9caa00 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c9e000', endColorstr='#9caa00',GradientType=0 ); /* IE6-9 */
+
 }
 
 .card_banner.someone {
-  background: #16AD76;
+  background: #1acc8a; /* Old browsers */
+  background: -moz-linear-gradient(top,  #1acc8a 0%, #139666 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#1acc8a), color-stop(100%,#139666)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top,  #1acc8a 0%,#139666 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top,  #1acc8a 0%,#139666 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top,  #1acc8a 0%,#139666 100%); /* IE10+ */
+  background: linear-gradient(top,  #1acc8a 0%,#139666 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1acc8a', endColorstr='#139666',GradientType=0 ); /* IE6-9 */
+
 }
 
 .card_banner p {
@@ -184,6 +201,7 @@ input {
 }
 
 input[type="button"], input[type="submit"], input[type="reset"], input[type="file"]::-webkit-file-upload-button, button {
+  font-family:'Conv_UniversLTStd-Cn',Sans-Serif;
   position: relative;
   height: 100%;
   top: 30px;
@@ -247,9 +265,8 @@ input[type="button"], input[type="submit"], input[type="reset"], input[type="fil
 
 #button_settings {
   position: absolute;
-  top:30px;
-  right: 30px;
-
+  top:10px;
+  right: 10px;
   background-image: url("/assets/settings_button.png");
   background-size:70px 70px;
   background-repeat:no-repeat;

@@ -1,10 +1,10 @@
-<div id="" class="card_set current new"  data-id="" style="z-index:102; left:0px; top:0px;">
+<div id="<%= @message.session.id %>" class="card_set current new"  data-id="" style="z-index:102; left:0px; top:0px;">
 	<div id="" class="card">
 		<div class="card_deck">
 			<%= form_for(@message, :remote => true) do |f| %>
 			<div class="field card_text">
 				<% a = ['If you can not convince them, confuse them.',
-					'Learn from yeterday, life for today, hope for tomorrow.',
+					'Learn from yesterday, life for today, hope for tomorrow.',
 					'Life is like riding a bycicle. To keep your balance you must keep moving.',
 					'You can not have everything. Where would you put it?',
 					'If your going to tell the people the truth, be funny or they will kill you.',
