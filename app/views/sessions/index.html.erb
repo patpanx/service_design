@@ -3,6 +3,8 @@
 <table>
   <tr>
     <th>Owner</th>
+    <th>Receiver</th>
+
     <th>Timeout</th>
     <th>Forwarding time</th>
     <th></th>
@@ -13,6 +15,7 @@
 <% @sessions.each do |session| %>
   <tr>
     <td><%= session.owner_id %></td>
+    <td><%= session.receiver_id %></td>
     <td><%= session.timeout %></td>
     <td><%= session.forwarding_time %></td>
     <td><%= link_to 'Show', session %></td>

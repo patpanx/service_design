@@ -92,15 +92,16 @@ class MessagesController < ApplicationController
         id_range = max_id - min_id + 1
         begin
           random_id = min_id + rand(id_range).to_i
-       # logger.debug "---- random_id: #{ random_id }"
+       logger.debug "---- random_id: #{ random_id }"
        #logger.debug "---- User.find(random_id).blank?: #{ User.find_by_id(random_id).blank? }"
         end while random_id == @current_user.id || User.find_by_id(random_id).blank?
         @randomUser = User.find_by_id(random_id)
         @message.receiver_id = @randomUser.id
+        @message_session.receiver_id = @randomUser.id
         @message.status = "asked"
         @message_session.status = "asked"
         @message.receiver_id = @receiver_id 
-        @re_message = Message.new( :owner_id => @receiver_id, :session_id => @message.session_id)
+        @re_message = Message.new( :owner_id => @randomUser.id, :session_id => @message.session_id)
         @re_message.save
       end
     else
